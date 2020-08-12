@@ -1,19 +1,24 @@
 const express = require('express');
-const redisClient = require('./redisConnector.js');
+const path = require('path');
+const bodyParser = require('body-parser')
+const redisClient = require('./redisConnector');
 const PORT = process.env.PORT || 5000;
 const app = express();
 const shortid = require('shortid');
 
-app.listen(PORT, () => {
-    console.log('App listening')
-});
+//app.use(express.static(path.join(__dirname,'client', 'src')));
+//app.use(express.static(path.join(__dirname, 'client', 'src')));
+app.use(bodyParser.urlencoded({extended: false}));
+app.set('view engine', 'html');
+
+
 
 app.post('/register', (req, res) => {
-    let email = req.query.email;
+    let email = req.body.email;
     let userDetails = {
-        name: req.query.fullname,
+        name: req.body.fullname,
         email,
-        password: req.query.password
+        password: req.body.password
     }
     let user = {
         userDetails,
@@ -24,14 +29,15 @@ app.post('/register', (req, res) => {
     let date = new Date(Date.now());
     user.loginActivity.push(date.toString());
     redisClient.hmset('users', email, (JSON.stringify(user)));
-    return res.sendStatus(200);
+    res.render()
+    res.send('OK')
 });
 
 app.post('/login', (req, res) => {
-    let email = req.query.email;
-    let password = req.query.password;
-    console.log('email: ', email);
-    console.log('password: ', password);
+    let email = req.body.email;
+    let password = req.body.password;
+    console.log(email)
+    console.log(password);
     let flag = checkUserPassword(email, password);
     console.log("flag ", flag);
     if(flag){
@@ -54,6 +60,11 @@ function checkUserPassword(email, password){
         return true;
     });
 }
+
+
+app.listen(PORT, () => {
+    console.log('App listening')
+});
 
 // todo needed?
 // users = {};
