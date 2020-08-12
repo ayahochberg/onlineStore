@@ -6,6 +6,8 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 const shortid = require('shortid');
 
+addAdminUser();
+
 app.use(bodyParser.urlencoded({extended: false}));
 
 app.listen(PORT, () => {
@@ -54,5 +56,22 @@ app.post('/login', (req, res) => {
     });
 });
 
-app.get('/signUp', (req, res) => {
-})
+app.use(express.static('./client/src'));
+
+function addAdminUser(){
+    let email = "admin";
+        let userDetails = {
+            name: "admin",
+            email: "admin",
+            password: "admin"
+        }
+        let user = {
+            userDetails,
+            cart: [],
+            purchases: [],
+            loginActivity: []
+        }
+        let date = new Date(Date.now());
+        user.loginActivity.push(date.toString());
+        redisClient.hmset('users', email, (JSON.stringify(user)));
+}
