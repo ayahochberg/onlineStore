@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 const shortid = require('shortid');
 
-addAdminUser();
+createAdminUser();
 
 app.use(bodyParser.urlencoded({extended: false}));
 
@@ -40,13 +40,9 @@ app.post('/register', (req, res) => {
 app.post('/login', (req, res) => {
     let email = req.body.email;
     let password = req.body.password;
-    console.log('email: ', email);
-    console.log('password: ', password);
     let userCheck = redisClient.hget('users', email, function (err, user) {
-        console.log("user1 ", user);
         if(!user) return res.send("user doesn't exist");
         let userJson = JSON.parse(user);
-        console.log("userCheckJson.password ", userJson.userDetails.password);
         if (userJson.userDetails.password != password) return res.send("user name or password incorrect");
         // in case user logged in correctly
         let sid = shortid.generate();
@@ -58,11 +54,11 @@ app.post('/login', (req, res) => {
 
 app.use(express.static('./client/src'));
 
-function addAdminUser(){
+function createAdminUser(){
     let email = "admin";
         let userDetails = {
             name: "admin",
-            email: "admin",
+            email,
             password: "admin"
         }
         let user = {
