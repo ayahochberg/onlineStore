@@ -61,10 +61,10 @@ body {
   .loginMsg button,
   .signupMsg button {
     background-color: #404040;
-    border: 2px solid white;
     border-radius: 10px;
     color:white;
     font-size: 12px;
+    border: 2px solid white;
     box-sizing: content-box;
     font-weight: 300;
     padding:10px;
