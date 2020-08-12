@@ -14,8 +14,6 @@ app.listen(PORT, () => {
 
 app.post('/register', (req, res) => {
     try {
-
-        console.log(req.body)
         let email = req.body.email;
         let userDetails = {
             name: req.body.fullname,
@@ -55,3 +53,6 @@ app.post('/login', (req, res) => {
         return res.sendStatus(200);
     });
 });
+
+app.get('/signUp', (req, res) => {
+})
