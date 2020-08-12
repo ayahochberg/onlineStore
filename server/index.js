@@ -5,13 +5,17 @@ const redisClient = require('./redisConnector');
 const PORT = process.env.PORT || 5000;
 const app = express();
 const shortid = require('shortid');
+
 app.use(bodyParser.urlencoded({extended: false}));
+
 app.listen(PORT, () => {
     console.log('App listening')
 });
 
 app.post('/register', (req, res) => {
     try {
+
+        console.log(req.body)
         let email = req.body.email;
         let userDetails = {
             name: req.body.fullname,

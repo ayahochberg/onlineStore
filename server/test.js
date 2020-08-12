@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const { json } = require('body-parser');
 const URL = "http://localhost:5000";
 const success = "OK";
 const fail = "FAILURE";
@@ -10,7 +11,18 @@ const fail = "FAILURE";
         let fullName = "user1";
         let password = "1234";
         console.log("Try to register user1");
-        let res = await fetch(URL + `/register?email=${userEmail}&fullname=${fullName}&password=${password}`, {method: 'POST'});
+        let data = new URLSearchParams();
+        data.append("email", userEmail)
+        data.append("fullname", fullName)
+        data.append("password", password)
+        
+        let res = await fetch(URL + '/register', {
+          method: 'POST', 
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'}, 
+          body: data
+        })
+
+        //let res = await fetch(URL + `/register?email=${userEmail}&fullname=${fullName}&password=${password}`, {method: 'POST'});
         if(res.status == 200) console.log(success);
         else console.log(fail);
 
