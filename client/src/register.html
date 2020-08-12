@@ -1,14 +1,26 @@
 <!DOCTYPE html>
 <html>
-<title></title>
+<title>Sign Up</title>
 <head>
+    <link rel="stylesheet" type="text/css" href="./css/registerStyle.css">
 </head>
 <body>
-<form class="form-inline" method="POST" action='/server/index.js/register'>
-    <input type="text" name="username" class="form-control" placeholder="user name">
-    <input type="text" name="fullname" class="form-control" placeholder="full name">
-    <input type="text" name="password" class="form-control" placeholder="password">
-    <button type="submit" value="Submit">Submit</button>
-</form>
+    <form action="http://127.0.0.1:5000/register" method="post">
+        <h2>Sign Up</h2>
+                <p>
+                <label for="fullname" class="floatLabel">Full name</label>
+                <input id="fullname" name="fullname" type="text">
+                </p>
+              <p>
+                  <label for="email" class="floatLabel">Email</label>
+                  <input id="email" name="email" type="text">
+              </p>
+              <p>
+                  <label for="password" class="floatLabel">Password</label>
+                  <input id="password" name="password" type="password">
+              </p>
+              <p><input type="submit" value="Create My Account" id="submit">
+              </p>
+          </form>
 </body>
 </html>
