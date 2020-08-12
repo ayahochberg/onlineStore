@@ -141,3 +141,10 @@ body {
   .visibility{
     opacity: 0;
   }
+
+  .errorMessage {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    align-content: flex-end;
+    font-size:50px;
+    color: red;
+  }
