@@ -7,7 +7,7 @@ client.on('connect', function(){
 })
 
 client.on('error', function(err){
-    console.err(err);
+    console.log(err);
 })
 
 module.exports = client;
