@@ -1,5 +1,4 @@
 const fetch = require('node-fetch');
-const { json } = require('body-parser');
 const URL = "http://localhost:5000";
 const success = "OK";
 const fail = "FAILURE";
@@ -11,60 +10,35 @@ const fail = "FAILURE";
         let fullName = "user1";
         let password = "1234";
         console.log("Try to register user1");
-        let data = new URLSearchParams();
-        data.append("email", userEmail)
-        data.append("fullname", fullName)
-        data.append("password", password)
-        let res = await fetch(URL + '/register', {
-          method: 'POST', 
-          headers: {'Content-Type': 'application/x-www-form-urlencoded'}, 
-          body: data
-        })
-        if(res.status == 200) console.log(success);
+        let res = await fetch(URL + `/register?email=${userEmail}&fullname=${fullName}&password=${password}`, {method: 'POST'});
+        let ans = await res.text();
+        if(ans == "OK") console.log(success);
         else console.log(fail);
 
         // login
         console.log("Try to login user1");
-        data = new URLSearchParams();
-        data.append("email", userEmail)
-        data.append("fullname", fullName)
-        data.append("password", password)
-        res = await fetch(URL + '/login', {
-          method: 'POST', 
-          headers: {'Content-Type': 'application/x-www-form-urlencoded'}, 
-          body: data
-        })
-        if(res.status == 200) console.log(success);
+        res = await fetch(URL + `/login?email=${userEmail}&password=${password}`, {method: 'POST'});
+        ans = await res.text();
+        if(ans == "OK") console.log(success);
         else console.log(fail);
 
          // login right user, wrong password
-         let badPass = "12";
-         data.set("password", badPass);
-         data.delete("fullname");
          console.log("Try to login user with wrong password");
-         res = await fetch(URL + '/login', {
-             method: 'POST', 
-             headers: {'Content-Type': 'application/x-www-form-urlencoded'}, 
-             body: data
-           })
-         let body = await res.text();
+         let badPass = "12";
+         res = await fetch(URL + `/login?email=${userEmail}&password=${badPass}`, {method: 'POST'});
+        ans = await res.text();
          console.log("res body:", body);
-         if(body == "user name or password incorrect") console.log(success);
+         if(ans == "INCORRECT") console.log(success);
          else console.log(fail);
         
         // login wrong user
         let badUserEmail = "wrongUser@gmail.com";
-        data.set("email", badUserEmail);
-
         console.log("Try to login wrong user");
-        res = await fetch(URL + '/login', {
-            method: 'POST', 
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}, 
-            body: data
-          })
-        body = await res.text();
+        res = await fetch(URL + `/login?email=${badUserEmail}&password=${password}`, {method: 'POST'});
+        let body = await res.text();
+        console.log("body ", body);
         console.log("res body:", body);
-        if(body == "user doesn't exist") console.log(success);
+        if(body == "NOT_EXISTS") console.log(success);
         else console.log(fail);
 
 

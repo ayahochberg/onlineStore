@@ -4,6 +4,7 @@ const redisClient = require('./redisConnector');
 const PORT = process.env.PORT || 5000;
 const app = express();
 const shortid = require('shortid');
+const URL = "http://localhost:5000";
 var cookieParser = require('cookie-parser');
 
 app.use(cookieParser());
@@ -11,19 +12,27 @@ app.use(cookieParser());
 createAdminUser();
 
 app.use(bodyParser.urlencoded({extended: false}));
+app.use('/src', express.static('./client/src'));
 
 app.listen(PORT, () => {
     console.log('App listening')
 });
 
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin',  req.headers.origin);
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Accept');
+    next();
+  });
+
 app.post('/register', (req, res) => {
     try {
-        let email = req.body.email;
-        let password = req.body.password;
-        let name = req.body.fullname;
+        let email = req.query.email;
+        let password = req.query.password;
+        let name = req.query.fullname;
         let user = generateUser(email, name, password);
         redisClient.hmset('users', email, (JSON.stringify(user)));
-
         return res.sendStatus(200);
     } catch (e) {
         return res.sendStatus(500);
@@ -31,14 +40,13 @@ app.post('/register', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-    let email = req.body.email;
-    let password = req.body.password;
-
-    let rememberMe = req.body['rememberMe'];
+    let email = req.query.email;
+    let password = req.query.password;
+    let rememberMe = req.query.rememberMe;
     redisClient.hget('users', email, function (err, user) {
-        if(!user) return res.send("user doesn't exist");
+        if(!user) return res.send("NOT_EXISTS");
         let userJson = JSON.parse(user);
-        if (userJson.userDetails.password != password) return res.send("user name or password incorrect");
+        if (userJson.userDetails.password != password) return res.send("INCORRECT");
         // in case user logged in correctly
         let sid = shortid.generate();
         if (rememberMe) {
@@ -52,7 +60,7 @@ app.post('/login', (req, res) => {
             res.cookie('admin', 'admin');
         }
         //users[sid] = {id:sid};
-        return res.sendStatus(200);
+        return res.send("OK");
     });
 });
 
@@ -63,8 +71,6 @@ app.get('/private/*', (req, res, next)=>{
         res.redirect('/error.html');
     }
 })
-
-app.use(express.static('./client/src'));
 
 function createAdminUser(){
     let email = "admin";
@@ -79,8 +85,8 @@ function generateUser(email, name, password){
         password
     }
     let user = {
-        userDetails,
         cart: [],
+        userDetails,
         purchases: [],
         loginActivity: []
     }

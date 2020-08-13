@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <title></title>
 <head>
@@ -11,24 +11,25 @@
             <div class="loginMsg">
               <div class="textcontent">
                 <p class="title">Don't have an account?</p>
-                <a href = http://127.0.0.1:5000/register.html>
+                <a href = "src/register.html">
                 <button id="switch">Sign Up</button>
                 </a>
               </div>
             </div>
           </div>
-          <!-- backbox -->
       
           <div class="frontbox">
             <div class="login">
                     <h2>Log In</h2>
                         <div class="inputbox">
-                            <form action="http://127.0.0.1:5000/login" method="POST" onsubmit="return validateUserInput()">
-                                <input type="text" name="email" id="email" placeholder="EMAIL">
+                            <form id="loginForm" method="POST" onsubmit="return validateUserInput()">
+                                <input type="text" name="email" id="email" placeholder="  EMAIL">
                                 <p className="errorMessage" id="errorEmail"></p>
                                 <input type="password" name="password" id="password" placeholder="  PASSWORD">
                                 <p class="errorMessage" id="errorPassword"></p>
-                                <input type="checkbox" name="rememberMe" id="rememberMe" value="Remember Me">
+                                <input type="checkbox" name="rememberMe" id="rememberMe" value="Remember Me">Remember Me</input>
+                                <br>
+                                <p class="errorMessage" id="errorUser"></p>
                                 <button type="submit">Log In</button>
                             </form>
                         </div>
@@ -36,16 +37,22 @@
           </div>
         </div>
         <script>   
-            function validateUserInput() {
-                let email = document.getElementById('email').value;
-                let isValidEmail = (/\S+@\S+\.\S+/).test(email)
+            var email;
+            var password;
 
+            function validateUserInput() {
+                email = document.getElementById('email').value;
+                password = document.getElementById('password').value;
+                if(email == 'admin' && password == 'admin'){
+                    return true;
+                }
+
+                let isValidEmail = (/\S+@\S+\.\S+/).test(email)
                 if(!isValidEmail) {
                     document.getElementById('errorEmail').innerHTML = "Wrong email format";
                     return false;
                 }
 
-                let password = document.getElementById('password').value;
                 let isValidPassword = password.length > 5;
                 if(!isValidPassword){
                     document.getElementById('errorPassword').innerHTML = "password must contains at list 6 characters";
@@ -54,7 +61,36 @@
 
                 return true;
             }
+
+            var ans;
+            const loginForm = document.getElementById('loginForm');
+            let rememberMe = document.getElementById('rememberMe').checked;
+            loginForm.addEventListener('submit', function(e){
+                e.preventDefault();
+                fetch(`http://localhost:5000/login?email=${email}&password=${password}&rememberMe=${rememberMe}`, {
+                    method: 'post',
+                 }) .then(response => response.text())
+                    .then(result => ans=result)
+                    .then(()=> handleResponse(ans))
+                    .catch(error => console.log('error', error));
+            });
+                
+            function handleResponse(ans){
+                switch(ans) {
+                    case "NOT_EXISTS":
+                        document.getElementById('errorPassword').innerHTML = "The details you entered does not match any account. Sign up for the account"
+                        break;
+
+                    case "INCORRECT":
+                        document.getElementById('errorPassword').innerHTML = "User name or password incorrect"
+                        break;
+
+                    case "OK":
+                        location.href = "./private/homePage.html";
+                        break;
+                }       
+            }
             </script>
       </body>
 </body>
-</html>
+</html> -->
