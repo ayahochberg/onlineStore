@@ -2,8 +2,39 @@
 <html>
 <title></title>
 <head>
+    <link rel="stylesheet" type="text/css" href="/client/src/css/homePageStyle.css">
+    <script src="https://kit.fontawesome.com/354304e19a.js" crossorigin="anonymous"></script>
 </head>
 <body>
+    <nav>
+        <ul>
+            <li class="logo">Retro</li>
+            <div class="items">
+                <li><a href="#" id="item">Home</a></li>
+                <li><a href="#" id="item">products</a>
+                    <ul class="dropdown">
+                        <li><a href="#" id="item">Sub-1</a></li>
+                        <li><a href="#" id="item">Sub-2</a></li>
+                        <li><a href="#" id="item">Sub-3</a></li>
+                    </ul>
+                </li>
+                <li><a href="checkout.html" id="item">Checkout</a></li>
+                <li><a href="#" id="item">WishList <i class="fas fa-heart"></i></a></li>
+                <li><a href="#" id="item">Cart<i class="fas fa-shopping-cart"></i></a></i></li>
+            </div>
+
+            <li class="search-icon">
+                <input type="search" placeholder="Search">
+                <label class="icon">
+                    <span class= "fas fa-search"></span>
+                </label>
+            </li>
+
+            <button class="button" style="vertical-align:middle" onclick="location.href='../index.html'">
+                <span>Logout </span>
+            </button>
+        </ul>
+    </nav>
 <div>HOME PAGE!</div>
 </body>
 </html>

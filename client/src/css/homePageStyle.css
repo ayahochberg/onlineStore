@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Pathway+Gothic+One&family=Teko:wght@500&family=Ubuntu:wght@300&display=swap');
+nav {
+    padding: 10px 40px 10px 70px;
+    border: 3px solid black;
+    border-left: none;
+    border-top: none;
+    border-right: none;
+}   
+
+nav ul {
+    display: flex;
+    list-style: none;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+nav ul li.logo{
+    flex: 1;
+    font-size: 80px;
+    letter-spacing: 5px;
+    font-weight: 600;
+    font-family: 'Pathway Gothic One', sans-serif;
+}
+
+nav ul div.items{
+    padding: 0 25px;
+    display: inline-flex;
+}
+
+
+nav ul div.items a, 
+ul .dropdown a {
+    text-decoration: none;
+    text-align: center;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 18px;
+    padding: 0 10px;
+    color:black;
+    cursor: pointer;
+}
+
+#item:hover{
+    color:#ff80d5;
+}
+
+nav ul .search-icon{
+    height: 40px;
+    width: 240px;
+    display: flex;
+    background: #f2f2f2;
+    border-radius: 5px;
+}
+
+nav ul .search-icon input {
+    height: 100%;
+    width: 200px;
+    border: none;
+    outline: none;
+    padding: 0 10px;
+    background: #f2f2f2;
+    border-radius: 5px 0 0 5p;
+    color: #000;
+    font-size: 16px;
+    border-radius: 5px 0 0 5px;
+}
+
+nav ul .search-icon .icon{
+    height: 100%;
+    width: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 0 5px 5px 0;
+    background-color:  #d9d9d9;
+    cursor: pointer;
+}
+
+nav ul .search-icon .icon :hover{
+    color: black;
+}
+
+nav ul .search-icon span{
+    color: grey;
+    font-size: 18px;
+}
+
+.button {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #fd93da;
+    border: none;
+    color:black;
+    text-align: center;
+    font-size: 15px;
+    padding: 10px;
+    width: 100px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin-left: 70px;
+  }
+  
+  .button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  .button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+  
+  .button:hover span {
+    padding-right: 25px;
+  }
+  
+  .button:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+
+  li{
+    position: relative;
+}
+
+  ul li ul {
+    text-align: center;
+    background: white;
+    visibility: hidden;
+    opacity: 0;
+    min-width: 5rem;
+    position: absolute;
+    transition: all 0.5s ease;
+    margin-top: 1rem;
+    left: 0;
+    display: none;
+}
+
+ul li:hover > ul,
+ul li ul:hover {
+  visibility: visible;
+  opacity: 1;
+  top:15%;
+  display: block;
+}
+
+ul li ul li {
+    clear: both;
+  width: 100%;
+}

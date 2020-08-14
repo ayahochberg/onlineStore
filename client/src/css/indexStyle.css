@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Pathway+Gothic+One&family=Teko:wght@500&family=Ubuntu:wght@300&display=swap');
 
   * {
       margin: 0px; 
@@ -11,8 +12,8 @@
     }
   
   a:hover {
-      text-decoration: none;
-    color: #a64bf4;
+    text-decoration: none;
+    color: #fd93da;
   }
   
   h1,h2,h3,h4,h5,h6 {
@@ -132,11 +133,14 @@
   
   .title {
     display: block;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 39px;
     color: #333333;
     line-height: 1.2;
     text-align: center;
+    flex: 1;
+    font-size: 80px;
+    letter-spacing: 5px;
+    font-weight: 600;
+    font-family: 'Pathway Gothic One', sans-serif;
   }
   
 
@@ -179,12 +183,11 @@
     pointer-events: none;
   }
   
-  .focus-input100::after {
+  .focus-input::after {
     content: attr(data-symbol);
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     color: #adadad;
     font-size: 22px;
-  
     display: -webkit-box;
     display: -webkit-flex;
     display: -moz-box;
@@ -200,7 +203,7 @@
     padding-top: 3px;
   }
   
-  .focus-input100::before {
+  .focus-input::before {
     content: "";
     display: block;
     position: absolute;
@@ -216,19 +219,19 @@
   }
   
   
-  .input100:focus + .focus-input100::before {
+  .input:focus + .focus-input::before {
     width: 100%;
   }
   
-  .has-val.input100 + .focus-input100::before {
+  .has-val.input + .focus-input::before {
     width: 100%;
   }
   
-  .input100:focus + .focus-input100::after {
+  .input:focus + .focus-input::after {
     color: #a64bf4;
   }
   
-  .has-val.input100 + .focus-input100::after {
+  .has-val.input + .focus-input::after {
     color: #a64bf4;
   }
   
@@ -264,10 +267,10 @@
     width: 300%;
     height: 100%;
     background: #a64bf4;
-    background: -webkit-linear-gradient(right,plum, #fc00ff, plum, #fc00ff);
-    background: -o-linear-gradient(right,plum, #fc00ff ,plum, #fc00ff);
-    background: -moz-linear-gradient(right, plum, #fc00ff, plum, #fc00ff);
-    background: linear-gradient(right, plum, #fc00ff, plum, #fc00ff);
+    background: -webkit-linear-gradient(right,  #ffe6f7,  #ff80d5    , #ffccee,  #ff80d5    );
+    background: -o-linear-gradient(right, #ffccee, #fc00ff , #ffe6f7, #fc00ff);
+    background: -moz-linear-gradient(right,  #ffccee, #ff80d5,  #ffe6f7,  #ff80d5    );
+    background: linear-gradient(right,  #ffccee,  #ff80d5, #ffe6f7, #fc00ff);
     top: 0;
     left: -100%;
   
@@ -307,4 +310,3 @@
   #rememberMe{
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   }
-  

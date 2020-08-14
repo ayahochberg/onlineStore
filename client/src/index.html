@@ -2,15 +2,15 @@
 <html>
 <title></title>
 <head>
-    <link rel="stylesheet" type="text/css" href="./css/indexStyle.css">
+	<link rel="stylesheet" type="text/css" href="./css/indexStyle.css">
 </head>
 <body>
     <div class="limiter">
 		<div class="container" >
 			<div class="wrap-login">
 				<form class="login-form" id="loginForm">
-					<span class="title">Login</span>
-
+					<span class="title">Retro</span>
+					<br>
 					<div class="wrap-input">
 						<span class="label-input">Email</span>
 						<input id="email" class="input" type="text" name="email"  placeholder="Type your Email">
@@ -74,8 +74,10 @@
 		}
 
 		function validateUserInput() {
+			document.getElementById("errors").innerHTML="";
 			var email = document.getElementById('email').value;
 			var password = document.getElementById('password').value;
+
 			if(email == 'admin' && password == 'admin'){
 				return true;
 			}
