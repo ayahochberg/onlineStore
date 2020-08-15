@@ -30,7 +30,7 @@ app.post('/register', (req, res) => {
     try {
         let email = req.query.email;
         let password = req.query.password;
-        let name = req.query.fullname;
+        let name = req.req.fullname;
         let user = generateUser(email, name, password);
         redisClient.hmset('users', email, (JSON.stringify(user)));
         return res.sendStatus(200);
@@ -43,8 +43,10 @@ app.post('/login', (req, res) => {
     let email = req.query.email;
     let password = req.query.password;
     let rememberMe = req.query.rememberMe;
+
     redisClient.hget('users', email, function (err, user) {
         if(!user) return res.send("NOT_EXISTS");
+    
         let userJson = JSON.parse(user);
         if (userJson.userDetails.password != password) return res.send("INCORRECT");
         // in case user logged in correctly

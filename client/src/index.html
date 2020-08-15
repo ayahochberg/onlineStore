@@ -41,6 +41,29 @@
 	</div>
 	<script>   
 		var ans;
+		var email;
+		var passord;
+
+		function validateUserInput() {
+			document.getElementById("errors").innerHTML="";
+			email = document.getElementById('email').value;
+			password = document.getElementById('password').value;
+
+			if(email == 'admin' && password == 'admin') return true;
+
+			let isValidEmail = (/\S+@\S+\.\S+/).test(email)
+			if(!isValidEmail) {
+				document.getElementById("errors").innerHTML += "<br>Wrong email format";
+			}
+
+			let isValidPassword = password.length > 5;
+			if(!isValidPassword){
+				document.getElementById("errors").innerHTML += "<br>password must contains at list 6 characters";
+			}
+
+			return isValidEmail && isValidPassword;
+		}
+
 		const loginForm = document.getElementById('loginForm');
 		let rememberMe = document.getElementById('rememberMe').checked;
 	
@@ -71,28 +94,6 @@
 					location.href = "./private/homePage.html";
 					break;
 			}       
-		}
-
-		function validateUserInput() {
-			document.getElementById("errors").innerHTML="";
-			var email = document.getElementById('email').value;
-			var password = document.getElementById('password').value;
-
-			if(email == 'admin' && password == 'admin'){
-				return true;
-			}
-
-			let isValidEmail = (/\S+@\S+\.\S+/).test(email)
-			if(!isValidEmail) {
-				document.getElementById("errors").innerHTML += "<br>Wrong email format";
-			}
-
-			let isValidPassword = password.length > 5;
-			if(!isValidPassword){
-				document.getElementById("errors").innerHTML += "<br>password must contains at list 6 characters";
-			}
-
-			return isValidEmail && isValidPassword;
 		}
 		</script>
 </body>
