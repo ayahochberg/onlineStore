@@ -19,6 +19,8 @@ const fail = "FAILURE";
         console.log("Try to login user1");
         res = await fetch(URL + `/login?email=${userEmail}&password=${password}`, {method: 'POST'});
         ans = await res.text();
+        let cookie = res.headers.get('set-cookie').split(';')[0];
+        console.log("res cookie:", cookie);
         if(ans == "OK") console.log(success);
         else console.log(fail);
 
@@ -27,8 +29,6 @@ const fail = "FAILURE";
         let badPass = "12";
         res = await fetch(URL + `/login?email=${userEmail}&password=${badPass}`, {method: 'POST'});
         ans = await res.text();
-        let cookie = res.cookie;
-        console.log("res cookie:", cookie);
         console.log("res body:", ans);
         if(ans == "INCORRECT") console.log(success);
         else console.log(fail);
@@ -40,6 +40,61 @@ const fail = "FAILURE";
         let body = await res.text();
         console.log("res body:", body);
         if(body == "NOT_EXISTS") console.log(success);
+        else console.log(fail);
+
+        // add to cart
+        let clothId = 3;
+        console.log("Try to add to cart an item");
+        let data = new URLSearchParams();
+        data.append("clothId", clothId)
+        res = await fetch(URL + '/private/addToCart', {
+          method: 'POST', 
+          headers: {
+            "Content-Type" :"application/x-www-form-urlencoded",
+            "Cookie" : cookie
+          }, 
+          body: data
+        });
+
+        body = await res.text();
+        console.log("res body:", body);
+        if(body == "OK") {
+          let res = await fetch(URL + '/private/cart', {
+            method: 'GET', 
+            headers: {"Cookie" : cookie}
+          });
+          body = await res.text();
+          let bodyJson = JSON.parse(body);
+          if(bodyJson.cart[0] == clothId) console.log(success);
+          else console.log(fail);
+        }
+        else console.log(fail);
+
+        // remove from cart
+        console.log("Try to remove item from the cart");
+        data = new URLSearchParams();
+        data.append("clothId", clothId)
+        res = await fetch(URL + '/private/removeFromCart', {
+          method: 'POST', 
+          headers: {
+            "Content-Type" :"application/x-www-form-urlencoded",
+            "Cookie" : cookie
+          }, 
+          body: data
+        });
+
+        body = await res.text();
+        console.log("res body:", body);
+        if(body == "OK") {
+          let res = await fetch(URL + '/private/cart', {
+            method: 'GET', 
+            headers: {"Cookie" : cookie}
+          });
+          body = await res.text();
+          let bodyJson = JSON.parse(body);
+          if(bodyJson.cart.indexOf(clothId) == -1 ) console.log(success);
+          else console.log(fail);
+        }
         else console.log(fail);
 
 

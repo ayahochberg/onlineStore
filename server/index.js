@@ -36,7 +36,7 @@ redisClient.on('connect', async function() {
             await redisClient.hmset('users', email, (JSON.stringify(user)));
             let sid = shortid.generate();
             res.cookie('sid', sid, { maxAge: 1800000 });
-            users[sid] = {email, id: sid, cart: userJson.cart, wishList: userJson.wishList};
+            users[sid] = {email, id: sid, cart: [], wishList: []};
             return res.sendStatus(200);
         } catch (e) {
             return res.sendStatus(500);
