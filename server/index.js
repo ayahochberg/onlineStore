@@ -6,6 +6,7 @@ const app = express();
 const shortid = require('shortid');
 const URL = "http://localhost:5000";
 const cookieParser = require('cookie-parser');
+const path = require('path');
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -129,6 +130,11 @@ redisClient.on('connect', async function() {
         let update = await updateWishList(users[cookieSid].wishList, cookieSid);
         // if(!update) res.redirect() //to login
         return res.send("OK");
+    });
+
+    app.post('/logout', async (req, res)=>{
+        res.clearCookie("sid");
+        return res.sendFile(path.join(__dirname, '../client/src', 'index.html'));
     });
 
     app.use(express.static('./client/src'));
