@@ -40,6 +40,10 @@ form {
     position: relative;
     
   }
+
+  .errors{
+    color:red;
+  }
   
   input {
     font-size: 4px;

@@ -18,7 +18,7 @@ function submitRegister(event) {
         method: 'post',
     }) .then(response => response.text())
         .then(result => ans=result)
-        .then(()=> console.log(ans))
+        .then(()=> handleResult(ans))
         .catch(error => console.log('error', error));
     }
 };
@@ -42,4 +42,12 @@ function validateUserInput(email, fullname, password) {
     }
 
     return isValidEmail && isValidPassword;
+}
+
+function handleResult(ans) {
+    if(ans == "OK"){
+        location.href = "./private/homePage.html";
+    } else {
+        document.getElementById("errors").innerHTML = "Internal Server Error"
+    }
 }
