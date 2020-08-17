@@ -5,11 +5,12 @@ body {
   font-family: 'Ubuntu', sans-serif;
   font-size: 10px
 }
+
 form {
   background-color:#ffe6f7;
-  padding: 4em 4em 2em;
+  padding: 2em 2em 1em;
   max-width: 400px;
-  margin: 50px auto 0;
+  margin: 20px auto 0;
   box-shadow: 0 0 1em #222;
   border-radius: 2px;
 }
@@ -22,9 +23,11 @@ form {
     font-family: 'Pathway Gothic One', sans-serif;
     align-content: center;
   }
+
   h2 {
-    margin:0 0 50px 0;
-    padding:10px;
+
+    margin:0 0 5px 0;
+    padding:5px;
     text-align:center;
     font-size:30px;
     color:darken(#e5e5e5, 50%);
@@ -33,24 +36,33 @@ form {
   }
   
   p {
-    margin: 0 0 3em 0;
+    margin: 0 0 2em 0;
     position: relative;
     
   }
+  
   input {
+    font-size: 4px;
     display: block;
     box-sizing: border-box;
     width: 100%;
     outline: none;
     margin:0;
   }
+
+  input::placeholder{
+    font-family: 'Ubuntu', sans-serif;
+    font-size: small;
+  }
+
   input[type="text"],
   input[type="password"] {
     background: #fff;
     border: 1px solid #dbdbdb;
-    font-size: 1.6em;
+    font-size: 20px;
     padding: .8em .5em;
     border-radius: 2px;
+
   }
   input[type="text"]:focus,
   input[type="password"]:focus {
@@ -72,12 +84,10 @@ form {
     cursor: pointer;
     box-sizing: content-box;
     display: block;
-    font-size: 2em;
+    font-size: 20px;
     line-height: 1.6em;
-    margin: 2em 0 0;
+    margin: 1em 0 0;
     outline: none;
-    padding: .8em 0;
-    text-shadow: 0 1px #68B25B;
     
   }
 
