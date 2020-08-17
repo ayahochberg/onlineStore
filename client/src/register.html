@@ -29,6 +29,8 @@
           </form>
           <script>
             var ans;
+            var email;
+            var password;
             const registerForm = document.getElementById('registerForm');
             registerForm.addEventListener('submit', function(e){
 			e.preventDefault();
@@ -44,9 +46,9 @@
         });
         
         function validateUserInput() {
-            var email = document.getElementById('email').value;
-            var fullname = document.getElementById('fullname').value;
-            var password = document.getElementById('password').value;
+            email = document.getElementById('email').value;
+            fullname = document.getElementById('fullname').value;
+            password = document.getElementById('password').value;
             document.getElementById("errors").innerHTML = "";
 
             let isValidName = (/^[a-zA-Z]+ [a-zA-Z]+$/).test(fullname)
