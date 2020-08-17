@@ -1,0 +1,130 @@
+*
+{
+	margin:0px;
+	padding:0px;
+}
+
+.container
+{
+	width:60%; /*you can use 1200px*/
+	margin:0px auto;
+}
+
+.latest-product{
+	width:100%;
+	margin-top: 80px;
+}
+
+.wrap {
+	display:table;
+	box-sizing: border-box;
+}
+
+.heading{
+	text-transform: uppercase;
+	font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+	text-align: center;
+	line-height: 2;
+	font-size: 12px;
+}
+
+.underline {
+	margin: 0 auto;
+	background-color: #ff80d5;
+	width: 13%;
+	height: 2px;
+}
+
+.row {
+	margin: 40px 0;
+}
+
+.column {
+	width: 25%;
+	display: table-cell;
+	padding: 10px;
+	text-align: center;
+}
+
+.product-grid {
+	border: 1px solid #f6f6f8;
+	position: relative;
+}
+
+.product-grid:hover {
+	box-shadow: 0 0 10px rgba(0,0,0,.2);
+}
+
+.product-img {
+	overflow: hidden;
+	position: relative;
+}
+
+.product-img a {
+	display: block;
+}
+
+.product-img img {
+	width: 100%;
+	height: auto;
+}
+
+.icon {
+	padding:0px;
+	margin: 0px;
+	position: absolute;
+	bottom: 100px;
+	right: 10px;
+	z-index: 1;
+}
+
+.icon li {
+	margin:0 0 10px;
+	display: block;
+	transform:translateX(100px);
+	transition: all .5s;
+}
+
+.product-grid:hover .icon li {
+	transform:translateX(0px);
+}
+
+.product-grid:hover .icon li:nth-child(2) {
+	transition-delay: .15s;
+}
+
+.product-grid:hover .icon li:nth-child(3) {
+	transition-delay: .25s;
+}
+
+.product-grid .icon li a {
+	color:#505050;
+	background-color: #fff;
+	font-size:16px;
+	line-height: 45px;
+	text-align: center;
+	height: 45px;
+	width: 45px;
+	border-radius: 50%;
+	display: block;
+	transition: all .3s ease 0s;
+}
+
+.product-grid .icon li a:hover {
+	color: #fff;
+	background-color: #ff80d5;
+	box-shadow: 0 0 10px rgba(0,0,0,.5);
+}
+
+.product-detail {
+	padding: 20px 10px;
+	font-size: 12px;
+	text-align: center;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.product-detail .h3 {
+	font-size: 10px;
+	font-family: serif;
+	margin: 0 0 7px;
+}

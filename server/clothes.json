@@ -2,8 +2,65 @@
     {
         "id" : 1,
         "price" : 20,
-        "category": "skirt",
+        "category": "top",
         "image": "1.jpg",
+        "title" : "White top",
+        "labels": ["black"]
+    },
+    {
+        "id" : 2,
+        "price" : 30,
+        "category": "top",
+        "image": "2.jpg",
+        "title":"White top",
+        "labels": ["black"]
+    },
+    {
+        "id" : 3,
+        "price" : 10,
+        "category": "top",
+        "image": "3.jpg",
+        "title":"White top",
+        "labels": ["black"]
+    },
+    {
+        "id" : 4,
+        "price" : 30,
+        "category": "top",
+        "image": "4.jpg",
+        "title":"White top",
+        "labels": ["black"]
+    },
+    {
+        "id" : 5,
+        "price" : 25,
+        "category": "top",
+        "image": "5.jpg",
+        "title":"White top",
+        "labels": ["black"]
+    },
+    {
+        "id" : 6,
+        "price" : 20,
+        "category": "top",
+        "image": "6.jpg",
+        "title":"White top",
+        "labels": ["black"]
+    },
+    {
+        "id" : 7,
+        "price" : 20,
+        "category": "top",
+        "image": "7.jpg",
+        "title":"White top",
+        "labels": ["black"]
+    },
+    {
+        "id" : 8,
+        "price" : 20,
+        "category": "top",
+        "image": "8.jpg",
+        "title":"White top",
         "labels": ["black"]
     }
 ]

@@ -137,6 +137,11 @@ redisClient.on('connect', async function() {
         return res.sendFile(path.join(__dirname, '../client/src', 'index.html'));
     });
 
+    app.get('/products', async (req, res)=> {
+        let clothes = require('./clothes.json');
+        res.send(clothes);
+    })
+
     app.use(express.static('./client/src'));
 
     async function createAdminUser() {
@@ -144,6 +149,7 @@ redisClient.on('connect', async function() {
         let user = generateUser(email, "admin", "admin");
         await redisClient.hmset('users', email, (JSON.stringify(user)));
     }
+
 
     async function updateCart(cart, cookieSid){
         try {
@@ -170,9 +176,12 @@ redisClient.on('connect', async function() {
     }
 });
 
+
+
 redisClient.on('error', function(err){
     console.log(err);
-}) 
+})
+
 
 
 function generateUser(email, name, password){
