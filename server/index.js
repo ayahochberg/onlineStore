@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 const shortid = require('shortid');
 const URL = "http://localhost:5000";
-var cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 
 app.use(cookieParser());
 
@@ -30,7 +30,7 @@ app.post('/register', (req, res) => {
     try {
         let email = req.query.email;
         let password = req.query.password;
-        let name = req.req.fullname;
+        let name = req.query.fullname;
         let user = generateUser(email, name, password);
         redisClient.hmset('users', email, (JSON.stringify(user)));
         return res.sendStatus(200);
@@ -58,10 +58,14 @@ app.post('/login', (req, res) => {
             res.cookie('sid', sid, { maxAge: 1800000 });
         }
 
+        let date = new Date(Date.now());
+        userJson.loginActivity.push(date.toString());
+        redisClient.hmset('users', email, (JSON.stringify(userJson)));
+
         if(userJson.email == "admin"){
             res.cookie('admin', 'admin');
         }
-        //users[sid] = {id:sid};
+        users[sid] = {id: sid, cart: userJson.cart};
         return res.send("OK");
     });
 });
@@ -96,3 +100,5 @@ function generateUser(email, name, password){
     user.loginActivity.push(date.toString());
     return user;
 }
+
+let users = {};

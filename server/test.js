@@ -23,13 +23,13 @@ const fail = "FAILURE";
         else console.log(fail);
 
          // login right user, wrong password
-         console.log("Try to login user with wrong password");
-         let badPass = "12";
-         res = await fetch(URL + `/login?email=${userEmail}&password=${badPass}`, {method: 'POST'});
+        console.log("Try to login user with wrong password");
+        let badPass = "12";
+        res = await fetch(URL + `/login?email=${userEmail}&password=${badPass}`, {method: 'POST'});
         ans = await res.text();
-         console.log("res body:", body);
-         if(ans == "INCORRECT") console.log(success);
-         else console.log(fail);
+        console.log("res body:", ans);
+        if(ans == "INCORRECT") console.log(success);
+        else console.log(fail);
         
         // login wrong user
         let badUserEmail = "wrongUser@gmail.com";
@@ -40,6 +40,7 @@ const fail = "FAILURE";
         console.log("res body:", body);
         if(body == "NOT_EXISTS") console.log(success);
         else console.log(fail);
+
 
 
     } catch (err) {
