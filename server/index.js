@@ -68,7 +68,7 @@ redisClient.on('connect', async function() {
         if(userJson.email == "admin"){
             res.cookie('admin', 'admin');
         }
-        users[sid] = {id: sid, cart: userJson.cart};
+        users[sid] = {email, id: sid, cart: userJson.cart, wishList: userJson.wishList};
         return res.send("OK");
     });
 
@@ -80,10 +80,16 @@ redisClient.on('connect', async function() {
         }
     });
 
-    // NEW~!!
     app.get('/private/cart', (req, res)=>{
         let cookieSid = req.cookies.sid;
-        return res.json({cart: user[cookieSid].cart}); // array of cart
+        return res.json({cart: users[cookieSid].cart}); // array of cart
+    });
+
+    app.post('/private/addToCart', (req, res)=>{
+        let clothId = req.body.clothId;
+        let cookieSid = req.cookies.sid;
+        users[cookieSid].cart.push(clothId);
+        return res.send("OK");
     });
 
     app.use(express.static('./client/src'));
@@ -110,7 +116,8 @@ function generateUser(email, name, password){
         cart: [],
         userDetails,
         purchases: [],
-        loginActivity: []
+        loginActivity: [],
+        wishList: []
     }
     let date = new Date(Date.now());
     user.loginActivity.push(date.toString());
