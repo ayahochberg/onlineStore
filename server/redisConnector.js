@@ -1,13 +1,8 @@
 const redis = require('redis')
 const REDIS_PORT = process.env.PORT || 6379;
+const { asyncRedis } = require('@toomee/async-redis');
 
-const client = redis.createClient(REDIS_PORT);
-client.on('connect', function(){
-    console.log('Connected to Redis');
-})
-
-client.on('error', function(err){
-    console.log(err);
-})
+const rClient = redis.createClient(REDIS_PORT);
+const client = asyncRedis(rClient);
 
 module.exports = client;

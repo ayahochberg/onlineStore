@@ -9,10 +9,8 @@ const cookieParser = require('cookie-parser');
 
 app.use(cookieParser());
 
-createAdminUser();
-
 app.use(bodyParser.urlencoded({extended: false}));
-app.use('/src', express.static('./client/src'));
+// app.use('/src', express.static('./client/src')); // ayas
 
 app.listen(PORT, () => {
     console.log('App listening')
@@ -26,27 +24,32 @@ app.use((req, res, next) => {
     next();
   });
 
-app.post('/register', (req, res) => {
-    try {
+redisClient.on('connect', async function() {
+    console.log('Connected to Redis');
+
+    await createAdminUser();
+
+    app.post('/register', async (req, res) => {
+        try {
+            let email = req.query.email;
+            let password = req.query.password;
+            let name = req.query.fullname;
+            let user = generateUser(email, name, password);
+            await redisClient.hmset('users', email, (JSON.stringify(user)));
+            return res.sendStatus(200);
+        } catch (e) {
+            return res.sendStatus(500);
+        }
+    });
+
+    app.post('/login', async (req, res) => {
         let email = req.query.email;
         let password = req.query.password;
-        let name = req.query.fullname;
-        let user = generateUser(email, name, password);
-        redisClient.hmset('users', email, (JSON.stringify(user)));
-        return res.sendStatus(200);
-    } catch (e) {
-        return res.sendStatus(500);
-    }
-});
+        let rememberMe = req.query.rememberMe;
 
-app.post('/login', (req, res) => {
-    let email = req.query.email;
-    let password = req.query.password;
-    let rememberMe = req.query.rememberMe;
-
-    redisClient.hget('users', email, function (err, user) {
+        let user = await redisClient.hget('users', email);
         if(!user) return res.send("NOT_EXISTS");
-    
+        
         let userJson = JSON.parse(user);
         if (userJson.userDetails.password != password) return res.send("INCORRECT");
         // in case user logged in correctly
@@ -60,7 +63,7 @@ app.post('/login', (req, res) => {
 
         let date = new Date(Date.now());
         userJson.loginActivity.push(date.toString());
-        redisClient.hmset('users', email, (JSON.stringify(userJson)));
+        await redisClient.hmset('users', email, (JSON.stringify(userJson)));
 
         if(userJson.email == "admin"){
             res.cookie('admin', 'admin');
@@ -68,21 +71,34 @@ app.post('/login', (req, res) => {
         users[sid] = {id: sid, cart: userJson.cart};
         return res.send("OK");
     });
+
+    app.get('/private/*', (req, res, next)=>{
+        if(req.cookies.sid){
+            next();
+        } else {
+            res.redirect('/error.html');
+        }
+    });
+
+    // NEW~!!
+    app.get('/private/cart', (req, res)=>{
+        let cookieSid = req.cookies.sid;
+        return res.json({cart: user[cookieSid].cart}); // array of cart
+    });
+
+    app.use(express.static('./client/src'));
+
+    async function createAdminUser(){
+        let email = "admin";
+        let user = generateUser(email, "admin", "admin");
+        await redisClient.hmset('users', email, (JSON.stringify(user)));
+    }
 });
 
-app.get('/private/*', (req, res, next)=>{
-    if(req.cookies.sid){
-        next();
-    } else {
-        res.redirect('/error.html');
-    }
-})
+redisClient.on('error', function(err){
+    console.log(err);
+}) 
 
-function createAdminUser(){
-    let email = "admin";
-    let user = generateUser(email, "admin", "admin");
-    redisClient.hmset('users', email, (JSON.stringify(user)));
-}
 
 function generateUser(email, name, password){
     let userDetails = {

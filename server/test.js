@@ -8,7 +8,7 @@ const fail = "FAILURE";
         // register
         let userEmail = "user1@gmail.com";
         let fullName = "user1";
-        let password = "1234";
+        let password = "123456";
         console.log("Try to register user1");
         let res = await fetch(URL + `/register?email=${userEmail}&fullname=${fullName}&password=${password}`, {method: 'POST'});
         let ans = await res.text();
@@ -36,7 +36,6 @@ const fail = "FAILURE";
         console.log("Try to login wrong user");
         res = await fetch(URL + `/login?email=${badUserEmail}&password=${password}`, {method: 'POST'});
         let body = await res.text();
-        console.log("body ", body);
         console.log("res body:", body);
         if(body == "NOT_EXISTS") console.log(success);
         else console.log(fail);
