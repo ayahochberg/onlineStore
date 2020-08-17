@@ -8,9 +8,7 @@ const URL = "http://localhost:5000";
 const cookieParser = require('cookie-parser');
 
 app.use(cookieParser());
-
 app.use(bodyParser.urlencoded({extended: false}));
-// app.use('/src', express.static('./client/src')); // ayas
 
 app.listen(PORT, () => {
     console.log('App listening')
@@ -36,6 +34,9 @@ redisClient.on('connect', async function() {
             let name = req.query.fullname;
             let user = generateUser(email, name, password);
             await redisClient.hmset('users', email, (JSON.stringify(user)));
+            let sid = shortid.generate();
+            res.cookie('sid', sid, { maxAge: 1800000 });
+            users[sid] = {email, id: sid, cart: userJson.cart, wishList: userJson.wishList};
             return res.sendStatus(200);
         } catch (e) {
             return res.sendStatus(500);
@@ -80,24 +81,86 @@ redisClient.on('connect', async function() {
         }
     });
 
+    // cart
     app.get('/private/cart', (req, res)=>{
         let cookieSid = req.cookies.sid;
-        return res.json({cart: users[cookieSid].cart}); // array of cart
+        return res.json({cart: users[cookieSid].cart});
     });
 
-    app.post('/private/addToCart', (req, res)=>{
+    app.post('/private/addToCart', async (req, res)=>{
         let clothId = req.body.clothId;
         let cookieSid = req.cookies.sid;
         users[cookieSid].cart.push(clothId);
+        let update = await updateCart(users[cookieSid].cart, cookieSid);
+        return res.send("OK");
+    });
+
+    app.post('/private/removeFromCart', async (req, res)=>{
+        let clothId = req.body.clothId;
+        let cookieSid = req.cookies.sid;
+        let itemIndex = users[cookieSid].cart.indexOf(clothId);
+        if(itemIndex == -1) return res.send("item not found");
+        users[cookieSid].cart.splice(itemIndex);
+        let update = await updateCart(users[cookieSid].cart, cookieSid);
+        // if(!update) res.redirect() //to login
+        return res.send("OK");
+    });
+
+    // wish list
+    app.get('/private/wishList', (req, res)=>{
+        let cookieSid = req.cookies.sid;
+        return res.json({wishList: users[cookieSid].wishList});
+    });
+
+    app.post('/private/addToWishList', async (req, res)=>{
+        let clothId = req.body.clothId;
+        let cookieSid = req.cookies.sid;
+        users[cookieSid].wishList.push(clothId);
+        let update = await updateWishList(users[cookieSid].wishList, cookieSid);
+        return res.send("OK");
+    });
+
+    app.post('/private/removeFromWishList', async (req, res)=>{
+        let clothId = req.body.clothId;
+        let cookieSid = req.cookies.sid;
+        let itemIndex = users[cookieSid].wishList.indexOf(clothId);
+        if(itemIndex == -1) return res.send("item not found");
+        users[cookieSid].wishList.splice(itemIndex);
+        let update = await updateWishList(users[cookieSid].wishList, cookieSid);
+        // if(!update) res.redirect() //to login
         return res.send("OK");
     });
 
     app.use(express.static('./client/src'));
 
-    async function createAdminUser(){
+    async function createAdminUser() {
         let email = "admin";
         let user = generateUser(email, "admin", "admin");
         await redisClient.hmset('users', email, (JSON.stringify(user)));
+    }
+
+    async function updateCart(cart, cookieSid){
+        try {
+            let user = await redisClient.hget('users', users[cookieSid].email);
+            if(!user) return false;
+            let userJson = JSON.parse(user);
+            userJson.cart = cart;
+            await redisClient.hmset('users', users[cookieSid].email, (JSON.stringify(userJson)));
+        } catch (e){
+            console.log(e);
+        }
+    }
+
+    async function updateWishList(wishList, cookieSid){
+        try {
+            let user = await redisClient.hget('users', users[cookieSid].email);
+            if(!user) return false;
+            let userJson = JSON.parse(user);
+            userJson.wishList = wishList;
+            await redisClient.hmset('users', users[cookieSid].email, (JSON.stringify(userJson)));
+        } catch (e){
+            console.log(e);
+        }
     }
 });
 

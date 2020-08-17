@@ -22,11 +22,13 @@ const fail = "FAILURE";
         if(ans == "OK") console.log(success);
         else console.log(fail);
 
-         // login right user, wrong password
+        // login right user, wrong password
         console.log("Try to login user with wrong password");
         let badPass = "12";
         res = await fetch(URL + `/login?email=${userEmail}&password=${badPass}`, {method: 'POST'});
         ans = await res.text();
+        let cookie = res.cookie;
+        console.log("res cookie:", cookie);
         console.log("res body:", ans);
         if(ans == "INCORRECT") console.log(success);
         else console.log(fail);
@@ -39,7 +41,6 @@ const fail = "FAILURE";
         console.log("res body:", body);
         if(body == "NOT_EXISTS") console.log(success);
         else console.log(fail);
-
 
 
     } catch (err) {
