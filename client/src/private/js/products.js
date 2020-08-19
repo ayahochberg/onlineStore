@@ -1,10 +1,11 @@
 
-window.addEventListener('load', genrateProductGrid)
+window.addEventListener('load', genrateProductsGrid)
 
-async function genrateProductGrid() {
+async function genrateProductsGrid() {
     let ans;
+    let category = document.getElementsByTagName('h1')[0].innerHTML;
 
-    await fetch("http://localhost:5000/products", {method: 'get'})
+    await fetch(`http://localhost:5000/products?category=${category}`, {method: 'get'})
     .then((response) => response.json())
     .then((responseData) => { ans = responseData;})
     .catch(error => console.warn(error));
@@ -13,9 +14,9 @@ async function genrateProductGrid() {
     let indexItem = 0;
     while(indexItem < ans.length) {
         let row = document.createElement('div');
-        row.className = "row"
-        for(let j = 0; j < 4; j++) {
-            console.log(indexItem)
+        row.className = "row";
+
+        for(let i=0; i<4; i++) {
             col = generateItem(ans[indexItem]);
             row.appendChild(col)
             indexItem++;
@@ -29,7 +30,7 @@ function generateItem(item){
 
     let productImg = document.createElement('div');
     productImg.className = "product-img";
-    productImg.innerHTML = `<img src="/client/public/clothes images/${item.image}">
+    productImg.innerHTML = `<img src="/client/public/img/${item.image}">
         <ul class="icon">
             <li><a href="#"><i class="fas fa-cart-plus"></i></a></li>
             <li><a href="#"><i class="fas fa-heart"></i></a></li>							
@@ -37,7 +38,7 @@ function generateItem(item){
 
     let productDeatils = document.createElement('div');
     productDeatils.className = "product-detail";
-    productDeatils.innerHTML = `<h3>${item.title}</h3><h5>${item.price}</h5>`
+    productDeatils.innerHTML = `<h3>${item.title}</h3><h5>${item.price}$</h5>`
 
     product.appendChild(productImg);
     product.appendChild(productDeatils);

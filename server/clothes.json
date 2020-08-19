@@ -2,7 +2,7 @@
     {
         "id" : 1,
         "price" : 20,
-        "category": "top",
+        "category": "tops",
         "image": "1.jpg",
         "title" : "White top",
         "labels": ["black"]
@@ -10,7 +10,7 @@
     {
         "id" : 2,
         "price" : 30,
-        "category": "top",
+        "category": "tops",
         "image": "2.jpg",
         "title":"White top",
         "labels": ["black"]
@@ -18,7 +18,7 @@
     {
         "id" : 3,
         "price" : 10,
-        "category": "top",
+        "category": "tops",
         "image": "3.jpg",
         "title":"White top",
         "labels": ["black"]
@@ -26,7 +26,7 @@
     {
         "id" : 4,
         "price" : 30,
-        "category": "top",
+        "category": "tops",
         "image": "4.jpg",
         "title":"White top",
         "labels": ["black"]
@@ -34,7 +34,7 @@
     {
         "id" : 5,
         "price" : 25,
-        "category": "top",
+        "category": "tops",
         "image": "5.jpg",
         "title":"White top",
         "labels": ["black"]
@@ -42,7 +42,7 @@
     {
         "id" : 6,
         "price" : 20,
-        "category": "top",
+        "category": "tops",
         "image": "6.jpg",
         "title":"White top",
         "labels": ["black"]
@@ -50,7 +50,7 @@
     {
         "id" : 7,
         "price" : 20,
-        "category": "top",
+        "category": "tops",
         "image": "7.jpg",
         "title":"White top",
         "labels": ["black"]
@@ -58,9 +58,146 @@
     {
         "id" : 8,
         "price" : 20,
-        "category": "top",
+        "category": "tops",
         "image": "8.jpg",
-        "title":"White top",
+        "title":"Blue Tshirt",
         "labels": ["black"]
+    },
+    {
+        "id" : 9,
+        "price" : 40,
+        "category": "pants",
+        "image": "9.jpg",
+        "title":"Grey long pants",
+        "labels": ["Grey", "long","pants"]
+    },
+    {
+        "id" : 10,
+        "price" : 39,
+        "category": "pants",
+        "image": "10.jpg",
+        "title":"Black long pants",
+        "labels": ["black", "long","pants"]
+    },
+    {
+        "id" : 11,
+        "price" : 15,
+        "category": "pants",
+        "image": "11.jpg",
+        "title":"Grey long pants",
+        "labels": ["grey","long","pants"]
+    },
+    {
+        "id" : 12,
+        "price" : 30,
+        "category": "pants",
+        "image": "12.jpg",
+        "title":"White pants",
+        "labels": ["White",  "pants"]
+    },
+    {
+        "id" : 13,
+        "price" : 15,
+        "category": "pants",
+        "image": "13.jpg",
+        "title":"White pants",
+        "labels": ["White",  "pants"]
+    },
+    {
+        "id" : 14,
+        "price" : 40,
+        "category": "pants",
+        "image": "14.jpg",
+        "title":"White pants",
+        "labels": ["White",  "pants"]
+    },
+    {
+        "id" : 15,
+        "price" : 15,
+        "category": "pants",
+        "image": "15.jpg",
+        "title":"White pants",
+        "labels": ["White",  "pants"]
+    },
+    {
+        "id" : 16,
+        "price" : 15,
+        "category": "pants",
+        "image": "16.jpg",
+        "title":"White pants",
+        "labels": ["White",  "pants"]
+    },
+    {
+        "id" : 17,
+        "price" : 15,
+        "category": "dresses",
+        "image": "17.jpg",
+        "title":"White pants",
+        "labels": ["White",  "pants"]
+    },
+    {
+        "id" : 18,
+        "price" : 15,
+        "category": "dresses",
+        "image": "18.jpg",
+        "title":"White pants",
+        "labels": ["White",  "pants"]
+    },
+    {
+        "id" : 19,
+        "price" : 15,
+        "category": "dresses",
+        "image": "19.jpg",
+        "title":"White pants",
+        "labels": ["White",  "pants"]
+    },
+    {
+        "id" : 20,
+        "price" : 15,
+        "category": "dresses",
+        "image": "20.jpg",
+        "title":"White pants",
+        "labels": ["White",  "pants"]
+    },
+    {
+        "id" : 21,
+        "price" : 15,
+        "category": "skirts",
+        "image": "21.jpg",
+        "title":"White pants",
+        "labels": ["White",  "pants"]
+    },
+    {
+        "id" : 22,
+        "price" : 15,
+        "category": "skirts",
+        "image": "22.jpg",
+        "title":"White pants",
+        "labels": ["White",  "pants"]
+    },
+    {
+        "id" : 23,
+        "price" : 15,
+        "category": "skirts",
+        "image": "23.jpg",
+        "title":"White pants",
+        "labels": ["White",  "pants"]
+    },
+    {
+        "id" : 24,
+        "price" : 15,
+        "category": "skirts",
+        "image": "24.jpg",
+        "title":"White pants",
+        "labels": ["White",  "pants"]
+    },
+    {
+        "id" : 25,
+        "price" : 15,
+        "category": "skirts",
+        "image": "25.jpg",
+        "title":"White pants",
+        "labels": ["White",  "pants"]
     }
+    
 ]

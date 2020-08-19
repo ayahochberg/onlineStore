@@ -138,8 +138,10 @@ redisClient.on('connect', async function() {
     });
 
     app.get('/products', async (req, res)=> {
+        let category = req.query.category;
         let clothes = require('./clothes.json');
-        res.send(clothes);
+        let filtered = clothes.filter((c) => (c.category == category.toLowerCase()))
+        res.send(filtered);
     })
 
     app.use(express.static('./client/src'));
