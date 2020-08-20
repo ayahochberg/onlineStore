@@ -23,6 +23,7 @@ async function genrateProductsGrid() {
         }
         grid.appendChild(row)
     }
+}
 
 function generateItem(item){
     let product = document.createElement('div');
@@ -32,8 +33,8 @@ function generateItem(item){
     productImg.className = "product-img";
     productImg.innerHTML = `<img src="/client/public/img/${item.image}">
         <ul class="icon">
-            <li><a href="#"><i class="fas fa-cart-plus"></i></a></li>
-            <li><a href="#"><i class="fas fa-heart"></i></a></li>							
+            <li><button class="cartBtn" onClick="addToCart(${item.id})"><i class="fas fa-cart-plus"></i></button></li>
+            <li><button class="wishListBtn" onClick="addToWishList(${item.id})"><i class="fas fa-heart"></i></button></li>
         </ul>`
 
     let productDeatils = document.createElement('div');
@@ -48,4 +49,41 @@ function generateItem(item){
     col.appendChild(product)
     return col;
 }
+
+async function addToCart(clothId) {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+        
+        var urlencoded = new URLSearchParams();
+        urlencoded.append("clothId", clothId);
+        
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: urlencoded,
+        };
+        
+        await fetch("http://localhost:5000/private/addToCart", requestOptions)
+          .then(response => response.text())
+          .then(result => console.log(result))
+          .catch(error => console.log('error', error));
+}
+
+async function addToWishList(clothId) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+        
+    var urlencoded = new URLSearchParams();
+    urlencoded.append("clothId", clothId);
+        
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: urlencoded,
+    };
+        
+    await fetch("http://localhost:5000/private/addToWishList", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
 }
