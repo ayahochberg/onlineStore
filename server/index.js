@@ -144,7 +144,14 @@ redisClient.on('connect', async function() {
         res.send(filtered);
     })
 
-    app.use(express.static('./client/src'));
+
+    //app.use(express.static('/client/src')); AYA CHANGED!!!!!
+    app.use(express.static('../client/src'));
+
+    app.get('/', function (req, res) {
+        return res.sendFile(path.join(__dirname, '../client/src', 'index.html'));
+    })
+    
 
     async function createAdminUser() {
         let email = "admin";
