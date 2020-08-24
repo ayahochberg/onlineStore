@@ -144,14 +144,16 @@ redisClient.on('connect', async function() {
         res.send(filtered);
     })
 
-
-    //app.use(express.static('/client/src')); AYA CHANGED!!!!!
-    app.use(express.static('../client/src'));
-
-    app.get('/', function (req, res) {
-        return res.sendFile(path.join(__dirname, '../client/src', 'index.html'));
+    app.get('/search', async(req, res)=> {
+        let search = req.query.search;
+        let clothes = require('./clothes.json');
+        let filtered = clothes.filter((c) => (c.labels.includes(search.toLowerCase())))
+        res.send(filtered);
     })
-    
+
+
+    //Aya NEW
+    app.use(express.static('../client/src'));
 
     async function createAdminUser() {
         let email = "admin";

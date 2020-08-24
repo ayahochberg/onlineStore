@@ -5,55 +5,55 @@
         "category": "tops",
         "image": "1.jpg",
         "title" : "White top",
-        "labels": ["black"]
+        "labels": ["white", "crop", "top"]
     },
     {
         "id" : 2,
         "price" : 30,
         "category": "tops",
         "image": "2.jpg",
-        "title":"White top",
-        "labels": ["black"]
+        "title":"Pink crop top",
+        "labels": ["pink", "crop", "top"]
     },
     {
         "id" : 3,
         "price" : 10,
         "category": "tops",
         "image": "3.jpg",
-        "title":"White top",
-        "labels": ["black"]
+        "title":"orange crop top",
+        "labels": ["orange", "crop", "top"]
     },
     {
         "id" : 4,
         "price" : 30,
         "category": "tops",
         "image": "4.jpg",
-        "title":"White top",
-        "labels": ["black"]
+        "title":"Yellow cami top",
+        "labels": ["yello",  "cami"]
     },
     {
         "id" : 5,
         "price" : 25,
         "category": "tops",
         "image": "5.jpg",
-        "title":"White top",
-        "labels": ["black"]
+        "title":"Green cami top",
+        "labels": ["green, cami, top"]
     },
     {
         "id" : 6,
         "price" : 20,
         "category": "tops",
         "image": "6.jpg",
-        "title":"White top",
-        "labels": ["black"]
+        "title":"blue top",
+        "labels": ["blue" , "top"]
     },
     {
         "id" : 7,
         "price" : 20,
         "category": "tops",
         "image": "7.jpg",
-        "title":"White top",
-        "labels": ["black"]
+        "title":"Red strepless top",
+        "labels": ["red", "strepless", "top"]
     },
     {
         "id" : 8,
@@ -61,7 +61,7 @@
         "category": "tops",
         "image": "8.jpg",
         "title":"Blue Tshirt",
-        "labels": ["black"]
+        "labels": ["blue", "tshirt", "top"]
     },
     {
         "id" : 9,
