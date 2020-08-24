@@ -1,10 +1,9 @@
-
-window.addEventListener('load', genrateProductsGrid)
+window.addEventListener('load', genrateProductsGrid);
 
 async function genrateProductsGrid() {
     let ans;
     let category = document.getElementsByTagName('h1')[0].innerHTML;
-
+    
     await fetch(`http://localhost:5000/products?category=${category}`, {method: 'get'})
     .then((response) => response.json())
     .then((responseData) => { ans = responseData;})
@@ -12,14 +11,18 @@ async function genrateProductsGrid() {
 
     const grid = document.getElementsByClassName('container wrap')[0];
     let indexItem = 0;
+    let colIndex=0;
+
     while(indexItem < ans.length) {
         let row = document.createElement('div');
         row.className = "row";
 
-        for(let i=0; i<4; i++) {
+       colIndex = 0;
+        while(colIndex < 4 && ans[indexItem]!= undefined) {
             col = generateItem(ans[indexItem]);
             row.appendChild(col)
             indexItem++;
+            colIndex++;
         }
         grid.appendChild(row)
     }
@@ -31,7 +34,7 @@ function generateItem(item){
 
     let productImg = document.createElement('div');
     productImg.className = "product-img";
-    productImg.innerHTML = `<img src="/client/public/img/${item.image}">
+    productImg.innerHTML = `<img src="/img/${item.image}">
         <ul class="icon">
             <li><button class="cartBtn" onClick="addToCart(${item.id})"><i class="fas fa-cart-plus"></i></button></li>
             <li><button class="wishListBtn" onClick="addToWishList(${item.id})"><i class="fas fa-heart"></i></button></li>

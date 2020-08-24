@@ -3,6 +3,7 @@
 <title></title>
 <head>
     <link rel="stylesheet" type="text/css" href="../css/homePageStyle.css">
+    <script src="./js/menuActions.js"></script>
     <script src="https://kit.fontawesome.com/354304e19a.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -24,13 +25,11 @@
             </div>
 
             <li class="search-icon">
-                <input type="search" placeholder="Search">
-                <label class="icon">
-                    <span class= "fas fa-search"></span>
-                </label>
+                <input type="search" placeholder="Search" id="searchInput">
+                    <button class= "fas fa-search" id="searchBtn"></button>
             </li>
 
-            <button class="button" style="vertical-align:middle" onclick="location.href='../index.html'">
+            <button class="button" style="vertical-align:middle" id = "logOutBtn">
                 <span>Logout </span>
             </button>
         </ul>

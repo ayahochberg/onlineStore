@@ -40,7 +40,7 @@
 }
 
 .column {
-	width: 25%;
+	width: 200px;
 	display: table-cell;
 	padding: 10px;
 	text-align: center;

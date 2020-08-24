@@ -153,3 +153,9 @@ ul li ul li {
     clear: both;
   width: 100%;
 }
+
+#searchBtn{
+  background-color: transparent;
+  font-size: large;
+  border: none;
+}
