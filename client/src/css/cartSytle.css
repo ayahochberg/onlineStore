@@ -1,0 +1,206 @@
+html {
+  font: 62.5%/1.5em "Trebuchet Ms", helvetica;
+}
+
+.heading{
+	text-transform: uppercase;
+	font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+	text-align: center;
+	line-height: 2;
+	font-size: 12px;
+}
+
+.underline {
+	margin: 0 auto;
+	background-color: #ff80d5;
+	width: 13%;
+	height: 2px;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+@font-face {
+    font-family: 'Shopper';
+    src: url('http://www.shopperfont.com/font/Shopper-Std.ttf');
+}
+
+p {
+  font-size: 1.5em;
+  color: black;
+}
+
+img {
+  max-width: 9em;
+  width: 100%;
+  overflow: hidden; 
+  margin-right: 1em;
+}
+
+.container {
+  max-width: 75em;
+  width: 70%;
+  margin: 40px auto;  
+  overflow: hidden;
+  position: relative;
+  border-radius: 0.6em;
+}
+
+.cart {
+  margin: 2.5em;
+  overflow: hidden;
+}
+
+.table {
+  background: #ffffff;
+  border-radius: 0.6em;
+  overflow: hidden;
+  clear: both;
+  margin-bottom: 1.8em;
+}
+
+
+.layout-inline > * {
+  display: inline-block;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.th {
+    background-color: #fff0fd;
+    color: black;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.tf {
+  background: gainsboro;
+  text-transform: uppercase;
+  text-align: right;
+  font-size: 1em;  
+}
+
+.tf p {
+  color: black;
+  font-weight: bold;
+}
+
+.col {
+  padding: 1em;
+  width: 12%;
+}
+
+.col-pro {
+  width: 44%;
+}
+
+.col-pro > * {
+  vertical-align: middle;
+}
+
+
+.tf .col {
+  width: 20%;
+}
+
+.row > div {
+  vertical-align: middle;
+}
+
+.row-bg2 {
+  background: #f7f7f7;
+}
+
+.visibility-cart {
+  position: absolute;
+  color: #fff;
+  top: 0.5em;
+  right: 0.5em;
+  font:  bold 2em arial;
+  border: 0.16em solid #fff;
+  border-radius: 2.5em;
+  padding: 0 0.22em 0 0.25em ;
+}
+
+.transition {
+  transition: all 0.3s ease-in-out;
+}
+
+@media screen and ( max-width: 755px) {
+  .container {
+    width: 98%;
+}
+  
+  .col-pro {
+    width: 35%;
+  }
+
+  .col-remove {
+    text-align: center;
+    width: 17%;
+  }
+  
+  img {
+    max-width: 100%;
+    margin-bottom: 1em;
+  }
+}
+
+.removeBtn{
+    background-color: transparent;
+    color:grey;
+    border: none;
+    font-size: 20px;
+}
+
+.removeBtn:hover{
+    color:red;
+}
+
+.checkout {
+    align-items: center;
+    display: inline-block;
+    border-radius: 4px;
+    background-color: gainsboro;
+    border: black;
+    color:black;
+    text-align: center;
+    font-size: 15px;
+    padding: 10px;
+    width: 230px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin-left: 70px;
+  }
+  
+  .checkout span {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: large;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  .checkout span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+
+  .checkout:hover span {
+    padding-right: 25px;
+  }
+  
+  .checkout:hover span:after {
+    opacity: 1;
+    right: 0;
+  }

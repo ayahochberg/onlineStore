@@ -93,7 +93,35 @@ redisClient.on('connect', async function() {
         }
     });
 
-    // cart
+    // cart - Aya's cart
+//     app.get('/private/cart', (req, res)=>{
+//         let cookieSid = req.cookies.sid;
+//         let cart = users[cookieSid].cart;
+//         let clothes = require('./clothes.json');
+//         let filtered = clothes.filter((c) => (cart.includes(''+c.id)));
+//         res.send(filtered);
+//     });
+
+//     app.post('/private/addToCart', async (req, res)=>{
+//         let clothId = req.body.clothId;
+//         let cookieSid = req.cookies.sid;
+//         users[cookieSid].cart.push(clothId);
+//         let update = await updateCart(users[cookieSid].cart, cookieSid);
+//         return res.send("OK");
+//     });
+
+//     app.post('/private/removeFromCart', async (req, res)=>{
+//         let clothId = req.body.clothId;
+//         let cookieSid = req.cookies.sid;
+//         let itemIndex = users[cookieSid].cart.indexOf(clothId);
+//         if(itemIndex == -1) return res.send("item not found");
+//         users[cookieSid].cart.splice(itemIndex);
+//         let update = await updateCart(users[cookieSid].cart, cookieSid);
+//         // if(!update) res.redirect() //to login
+//         return res.send("OK");
+//     });
+
+    // Adi's cart
     cart.load(app, redisClient, users);
 
     // app.get('/private/cart', (req, res)=>{
@@ -135,12 +163,11 @@ redisClient.on('connect', async function() {
 
     // wish list
     app.get('/private/wishList', (req, res)=>{
-        try {
-            let cookieSid = req.cookies.sid;
-            return res.json({wishList: users[cookieSid].wishList});
-        } catch (e) {
-            return res.sendStatus(500);
-        }
+        let cookieSid = req.cookies.sid;
+        let wishList = users[cookieSid].wishList;
+        let clothes = require('./clothes.json');
+        let filtered = clothes.filter((c) => (wishList.includes(''+c.id)));
+        res.send(filtered);;
     });
 
     app.post('/private/addToWishList', async (req, res)=>{
@@ -205,6 +232,13 @@ redisClient.on('connect', async function() {
         }
     });
 
+    app.get('/search', async(req, res)=> {
+        let search = req.query.search;
+        let clothes = require('./clothes.json');
+        let filtered = clothes.filter((c) => (c.labels.includes(search.toLowerCase())))
+        res.send(filtered);
+    })
+
 
     app.use(express.static('./client/src')); // AYA CHANGED!!!!! works for Adi
     // app.use(express.static('/../client/src'));
@@ -213,7 +247,6 @@ redisClient.on('connect', async function() {
     // app.get('/', function (req, res) {
     //     return res.sendFile(path.join(__dirname, '../client/src', 'index.html'));
     // })
-    
 
     async function createAdminUser() {
         try {

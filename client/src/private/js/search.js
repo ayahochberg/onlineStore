@@ -1,10 +1,12 @@
-window.addEventListener('load', genrateProductsGrid);
+window.addEventListener("load", generateGrid);
 
-async function genrateProductsGrid() {
+async function generateGrid(){
     let ans;
-    let category = document.getElementsByTagName('h1')[0].innerHTML;
-    
-    await fetch(`http://localhost:5000/products?category=${category}`, {method: 'get'})
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const searchInput = urlParams.get('search')
+
+    await fetch(`http://localhost:5000/search?search=${searchInput}`, {method: 'get'})
     .then((response) => response.json())
     .then((responseData) => { ans = responseData;})
     .catch(error => console.warn(error));
@@ -12,12 +14,11 @@ async function genrateProductsGrid() {
     const grid = document.getElementsByClassName('container wrap')[0];
     let indexItem = 0;
     let colIndex=0;
-
     while(indexItem < ans.length) {
         let row = document.createElement('div');
         row.className = "row";
 
-       colIndex = 0;
+        colIndex = 0;
         while(colIndex < 4 && ans[indexItem]!= undefined) {
             col = generateItem(ans[indexItem]);
             row.appendChild(col)
