@@ -220,6 +220,10 @@ redisClient.on('connect', async function() {
         try {
             let category = req.query.category;
             let clothes = require('./clothes.json');
+            if(category.toLowerCase() == "products") {
+                res.send(clothes);
+            }
+
             let filtered = clothes.filter((c) => (c.category == category.toLowerCase()))
             res.send(filtered);
         } catch (e) {
@@ -235,9 +239,9 @@ redisClient.on('connect', async function() {
     })
 
 
-    app.use(express.static('./client/src')); // AYA CHANGED!!!!! works for Adi
+    //app.use(express.static('./client/src')); // AYA CHANGED!!!!! works for Adi
     // app.use(express.static('/../client/src'));
-    // app.use(express.static('../client/src')); // works for Aya
+     app.use(express.static('../client/src')); // works for Aya
 
     // app.get('/', function (req, res) {
     //     return res.sendFile(path.join(__dirname, '../client/src', 'index.html'));
