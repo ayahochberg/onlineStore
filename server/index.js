@@ -85,7 +85,10 @@ redisClient.on('connect', async function() {
     // cart
     app.get('/private/cart', (req, res)=>{
         let cookieSid = req.cookies.sid;
-        return res.json({cart: users[cookieSid].cart});
+        let cart = users[cookieSid].cart;
+        let clothes = require('./clothes.json');
+        let filtered = clothes.filter((c) => (cart.includes(''+c.id)));
+        res.send(filtered);
     });
 
     app.post('/private/addToCart', async (req, res)=>{
@@ -110,7 +113,10 @@ redisClient.on('connect', async function() {
     // wish list
     app.get('/private/wishList', (req, res)=>{
         let cookieSid = req.cookies.sid;
-        return res.json({wishList: users[cookieSid].wishList});
+        let wishList = users[cookieSid].wishList;
+        let clothes = require('./clothes.json');
+        let filtered = clothes.filter((c) => (wishList.includes(''+c.id)));
+        res.send(filtered);;
     });
 
     app.post('/private/addToWishList', async (req, res)=>{

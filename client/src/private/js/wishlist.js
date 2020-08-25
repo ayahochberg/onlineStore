@@ -1,42 +1,43 @@
-window.addEventListener('load', generateCartTable);
+window.addEventListener('load', generateWishListTable);
 
-async function generateCartTable(){
+async function generateWishListTable(){
     let ans;
-    let total = 0;
-    await fetch(`http://localhost:5000/private/cart`, {method: 'get'})
+    await fetch(`http://localhost:5000/private/wishList`, {method: 'get'})
     .then((response) => response.json())
     .then((responseData) => { ans = responseData;})
     .catch(error => console.warn(error));
 
     let isEmpty = ans.length == 0;
-    let table = document.getElementsByClassName('cartItems')[0];
+    let table = document.getElementsByClassName('wishlistItems')[0];
 
     if(isEmpty) {
         let itemContainer = document.createElement('div');
         itemContainer.className="emptyCard";
-        itemContainer.innerHTML = `<p>Your Cart is empty</p>`;
+        itemContainer.innerHTML = `<p>Your Wishlist is empty</p>`;
         table.appendChild(itemContainer);
         return;
     }
 
     let headers = document.createElement('div');
-    headers.className = "layout-inline row th";
+    headers.className = "layout-inline headers row th";
     headers.innerHTML = `<div class="col col-pro">Product</div>
-                        <div class="col col-price align-center "> Price</div>
+                        <div class="col col-price align-center ">Price</div>
                         <div class="col col-remove align-center"></div>`;
     table.appendChild(headers);
 
     for(let item=0; item<ans.length; item++) {
         let product = ans[item];
-        total+=product.price;
 
         let itemContainer = document.createElement('div');
-        itemContainer.className = "layout-inline row";
+        itemContainer.className="withListItem";
+
+        let layoutInline = document.createElement('div');
+        layoutInline.className = "layout-inline row";
 
         let deatils = document.createElement('div');
         deatils.className = "col col-pro layout-inline";
         deatils.innerHTML = `<img src=/img/${product.image}><p>${product.title}</p>`
-        
+            
         let price = document.createElement('div');
         price.className = "col col-price col-numeric align-center";
         price.innerHTML = `<p>${product.price}$</p>`
@@ -45,33 +46,12 @@ async function generateCartTable(){
         remove.className = "col col-remove align-center";
         remove.innerHTML = `<button class="removeBtn" onclick="remove(${item}, ${product.id})"><i class="fas fa-minus-circle"></i></button>`;
 
-        itemContainer.appendChild(deatils);
-        itemContainer.appendChild(price);
-        itemContainer.appendChild(remove)
+        layoutInline.appendChild(deatils);
+        layoutInline.appendChild(price);
+        layoutInline.appendChild(remove)
+        itemContainer.appendChild(layoutInline);
         table.appendChild(itemContainer)
     }
-
-    let footer = document.createElement('div');
-    footer.className = "tf";
-    footer.innerHTML = `<div class="row layout-inline">
-                            <div class="col"><p>Shipping</p></div>
-                            <div class="col"><p class="shippingPrice"></p></div>
-                        </div>
-
-                        <div class="row layout-inline">
-                            <div class="col"><p>Total</p></div>
-                            <div class="col"><p class="totalPrice"></p></div>
-                        </div>
-                    <button class="checkout" onclick="onClickCheckout()"><span>Checkout</span></button>`;
-    table.appendChild(footer);
-
-    let shippingPrice = 20;
-    let shippingElement = document.getElementsByClassName('shippingPrice')[0];
-    shippingElement.innerHTML = `${shippingPrice}$`;
-
-    let totalPrice = shippingPrice + total;
-    let totalElement = document.getElementsByClassName('totalPrice')[0];
-    totalElement.innerHTML = `${totalPrice}$`;
 }
 
 async function remove(indexItem, clothId){
@@ -87,14 +67,10 @@ async function remove(indexItem, clothId){
         body: urlencoded,
     };
         
-    await fetch("http://localhost:5000/private/removeFromCart", requestOptions)
+    await fetch("http://localhost:5000/private/removeFromWishList", requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
 
     location.reload();
-}
-
-function onClickCheckout(){
-    location.href = "./checkout.html"
 }
