@@ -5,7 +5,10 @@ cart.load = function(app, redisClient, users) {
     app.get('/private/cart', (req, res)=>{
         try {
             let cookieSid = req.cookies.sid;
-            return res.json({cart: users[cookieSid].cart});
+            let cart = users[cookieSid].cart;
+            let clothes = require('./clothes.json');
+            let filtered = clothes.filter((c) => (cart.includes(''+c.id)));
+            res.send(filtered);
         } catch (e) {
             return res.sendStatus(500);
         }

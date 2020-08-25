@@ -29,6 +29,16 @@ redisClient.on('connect', async function() {
 
     await createAdminUser();
 
+    app.get('/', async (req, res) => {
+        try {
+            let cookieSid = req.cookies.sid;
+            if(cookieSid) res.redirect('/private/homePage.html');
+            return res.sendFile(path.join(__dirname, '../client/src', 'index.html'));
+        } catch (e) {
+            return res.sendStatus(500);
+        }
+    });
+
     app.post('/register', async (req, res) => {
         try {
             let email = req.query.email;
@@ -81,6 +91,16 @@ redisClient.on('connect', async function() {
         }
     });
 
+    app.get('/checkIfAdmin', async (req, res) => {
+        try {
+            let cookieSid = req.cookies.sid;
+            if(users[cookieSid].userType !== 'admin') return res.send('false');
+            return res.send('true');
+        } catch (e) {
+            return res.sendStatus(500);
+        }
+    });
+
     app.use('/private/*', (req, res, next)=>{
         try {
             if(req.cookies.sid){
@@ -93,41 +113,16 @@ redisClient.on('connect', async function() {
         }
     });
 
-    // cart - Aya's cart
-//     app.get('/private/cart', (req, res)=>{
-//         let cookieSid = req.cookies.sid;
-//         let cart = users[cookieSid].cart;
-//         let clothes = require('./clothes.json');
-//         let filtered = clothes.filter((c) => (cart.includes(''+c.id)));
-//         res.send(filtered);
-//     });
-
-//     app.post('/private/addToCart', async (req, res)=>{
-//         let clothId = req.body.clothId;
-//         let cookieSid = req.cookies.sid;
-//         users[cookieSid].cart.push(clothId);
-//         let update = await updateCart(users[cookieSid].cart, cookieSid);
-//         return res.send("OK");
-//     });
-
-//     app.post('/private/removeFromCart', async (req, res)=>{
-//         let clothId = req.body.clothId;
-//         let cookieSid = req.cookies.sid;
-//         let itemIndex = users[cookieSid].cart.indexOf(clothId);
-//         if(itemIndex == -1) return res.send("item not found");
-//         users[cookieSid].cart.splice(itemIndex);
-//         let update = await updateCart(users[cookieSid].cart, cookieSid);
-//         // if(!update) res.redirect() //to login
-//         return res.send("OK");
-//     });
-
-    // Adi's cart
+    // cart
     cart.load(app, redisClient, users);
 
     // app.get('/private/cart', (req, res)=>{
     //     try {
     //         let cookieSid = req.cookies.sid;
-    //         return res.json({cart: users[cookieSid].cart});
+    //         let cart = users[cookieSid].cart;
+    //         let clothes = require('./clothes.json');
+    //         let filtered = clothes.filter((c) => (cart.includes(''+c.id)));
+    //         res.send(filtered);
     //     } catch (e) {
     //         return res.sendStatus(500);
     //     }
@@ -152,7 +147,7 @@ redisClient.on('connect', async function() {
     //         let cookieSid = req.cookies.sid;
     //         let itemIndex = users[cookieSid].cart.indexOf(clothId);
     //         if(itemIndex == -1) return res.send("item not found");
-    //         users[cookieSid].cart.splice(itemIndex);
+    //         users[cookieSid].cart.splice(itemIndex, 1);
     //         let update = await updateCart(users[cookieSid].cart, cookieSid);
     //         if(update === 'false') res.sendStatus(500);
     //         return res.send("OK");

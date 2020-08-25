@@ -92,11 +92,11 @@ nav ul .search-icon span{
     color:black;
     text-align: center;
     font-size: 15px;
-    padding: 10px;
+    padding: 5px;
     width: 100px;
     transition: all 0.5s;
     cursor: pointer;
-    margin-left: 70px;
+    margin-left: 60px;
   }
   
   .button span {
