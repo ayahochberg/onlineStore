@@ -69,7 +69,7 @@
         "category": "pants",
         "image": "9.jpg",
         "title":"Grey long pants",
-        "labels": ["Grey", "long","pants"]
+        "labels": ["grey", "long","pants"]
     },
     {
         "id" : 10,
@@ -92,112 +92,104 @@
         "price" : 30,
         "category": "pants",
         "image": "12.jpg",
-        "title":"White pants",
-        "labels": ["White",  "pants"]
+        "title":"Green short pants",
+        "labels": ["green", "short", "pants"]
     },
     {
         "id" : 13,
         "price" : 15,
         "category": "pants",
         "image": "13.jpg",
-        "title":"White pants",
-        "labels": ["White",  "pants"]
+        "title":"Pink corduroy pants",
+        "labels": ["pink", "corduroy", "pants"]
     },
     {
         "id" : 14,
         "price" : 40,
         "category": "pants",
         "image": "14.jpg",
-        "title":"White pants",
-        "labels": ["White",  "pants"]
+        "title":"Short jeans",
+        "labels": ["short",  "jeans"]
     },
     {
         "id" : 15,
         "price" : 15,
         "category": "pants",
         "image": "15.jpg",
-        "title":"White pants",
-        "labels": ["White",  "pants"]
+        "title":"Black pants",
+        "labels": ["black",  "pants"]
     },
     {
         "id" : 16,
         "price" : 15,
         "category": "pants",
         "image": "16.jpg",
-        "title":"White pants",
-        "labels": ["White",  "pants"]
+        "title":"blue pants",
+        "labels": ["blue","short", "pants"]
     },
     {
         "id" : 17,
         "price" : 15,
         "category": "dresses",
         "image": "17.jpg",
-        "title":"White pants",
-        "labels": ["White",  "pants"]
+        "title":"Green dress",
+        "labels": ["green",  "dress"]
     },
     {
         "id" : 18,
         "price" : 15,
         "category": "dresses",
         "image": "18.jpg",
-        "title":"White pants",
-        "labels": ["White",  "pants"]
+        "title":"Green dress",
+        "labels": ["green",  "dress"]
     },
     {
         "id" : 19,
         "price" : 15,
         "category": "dresses",
         "image": "19.jpg",
-        "title":"White pants",
-        "labels": ["White",  "pants"]
+        "title":"White dress",
+        "labels": ["white",  "dress"]
     },
     {
         "id" : 20,
         "price" : 15,
         "category": "dresses",
         "image": "20.jpg",
-        "title":"White pants",
-        "labels": ["White",  "pants"]
+        "title":"Red cami dress",
+        "labels": ["red", "cami", "dress"]
+
     },
     {
         "id" : 21,
         "price" : 15,
         "category": "skirts",
         "image": "21.jpg",
-        "title":"White pants",
-        "labels": ["White",  "pants"]
+        "title":"Brown skirt",
+        "labels": ["brown",  "skirt"]
     },
     {
         "id" : 22,
         "price" : 15,
         "category": "skirts",
         "image": "22.jpg",
-        "title":"White pants",
-        "labels": ["White",  "pants"]
+        "title":"Printed skirt",
+        "labels": ["flowers",  "skirt"]
     },
     {
         "id" : 23,
         "price" : 15,
         "category": "skirts",
         "image": "23.jpg",
-        "title":"White pants",
-        "labels": ["White",  "pants"]
-    },
-    {
-        "id" : 24,
-        "price" : 15,
-        "category": "skirts",
-        "image": "24.jpg",
-        "title":"White pants",
-        "labels": ["White",  "pants"]
+        "title":"Printed pink skirt",
+        "labels": ["flowers",  "pink", "skirt"]
     },
     {
         "id" : 25,
         "price" : 15,
         "category": "skirts",
         "image": "25.jpg",
-        "title":"White pants",
-        "labels": ["White",  "pants"]
+        "title":"Blue mini skirt",
+        "labels": ["blue", "mini", "skirt"]
     }
-    
 ]
