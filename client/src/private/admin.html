@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<title></title>
+<head>
+    <link rel="stylesheet" type="text/css" href="../css/homePageStyle.css">
+    <link rel="stylesheet" type="text/css" href="../css/clothesPageStyle.css">
+    <link rel="stylesheet" type="text/css" href="../css/admin.css">
+    <script src="./js/admin.js"></script>
+    <script src="https://kit.fontawesome.com/354304e19a.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li class="logo">Retro</li>
+            <div class="items">
+                <li><a href="homePage.html" id="item">Home</a></li>
+                <li><a href="products.html" id="item">products</a>
+                    <ul class="dropdown">
+                        <li><a href="tops.html" id="item">Tops</a></li>
+                        <li><a href="pants.html" id="item">Pants</a></li>
+                        <li><a href="dresses.html" id="item">Dresses</a></li>
+                        <li><a href="skirts.html" id="item">Skirts</a></li>
+                    </ul>
+                </li>
+                <li><a href="wishlist.html" id="item">WishList <i class="fas fa-heart"></i></a></li>
+                <li><a href="cart.html" id="item">Cart<i class="fas fa-shopping-cart"></i></a></i></li>
+            </div>
+
+            <li class="search-icon">
+                <input type="search" placeholder="Search">
+                <label class="icon">
+                    <span class= "fas fa-search"></span>
+                </label>
+            </li>
+
+            <button class="button" style="vertical-align:middle" onclick="location.href='../index.html'">
+                <span>Logout </span>
+            </button>
+        </ul>
+    </nav>    	
+	<div class="container wrap">
+		<div class="heading">
+			<h1>Users Activity</h1>
+            <div class="underline"></div>
+            <input type="text" id="searchVal" onkeyup="generateFilteredTable()" placeholder="Search for user..">
+            <table id="usersTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Cart - item Id</th>
+                        <th>Purchases - item Id</th>
+                        <th>Login Activity</th>
+                    </tr>
+                </thead>
+                <tbody id="tableData"></tbody>
+            </table>
+        </div>	
+    </div>
+</body>
+</html>

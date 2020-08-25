@@ -31,7 +31,7 @@ function generateItem(item){
 
     let productImg = document.createElement('div');
     productImg.className = "product-img";
-    productImg.innerHTML = `<img src="/client/public/img/${item.image}">
+    productImg.innerHTML = `<img src="/img/${item.image}">
         <ul class="icon">
             <li><button class="cartBtn" onClick="addToCart(${item.id})"><i class="fas fa-cart-plus"></i></button></li>
             <li><button class="wishListBtn" onClick="addToWishList(${item.id})"><i class="fas fa-heart"></i></button></li>

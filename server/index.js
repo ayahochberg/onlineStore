@@ -7,6 +7,7 @@ const shortid = require('shortid');
 const URL = "http://localhost:5000";
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const cart = require('./cart');
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -37,7 +38,7 @@ redisClient.on('connect', async function() {
             await redisClient.hmset('users', email, (JSON.stringify(user)));
             let sid = shortid.generate();
             res.cookie('sid', sid, { maxAge: 1800000 });
-            users[sid] = {email, id: sid, cart: [], wishList: []};
+            users[sid] = {email, id: sid, cart: [], wishList: [], userType: 'user'};
             return res.sendStatus(200);
         } catch (e) {
             return res.sendStatus(500);
@@ -45,132 +46,198 @@ redisClient.on('connect', async function() {
     });
 
     app.post('/login', async (req, res) => {
-        let email = req.query.email;
-        let password = req.query.password;
-        let rememberMe = req.query.rememberMe;
-
-        let user = await redisClient.hget('users', email);
-        if(!user) return res.send("NOT_EXISTS");
-        
-        let userJson = JSON.parse(user);
-        if (userJson.userDetails.password != password) return res.send("INCORRECT");
-        // in case user logged in correctly
-        let sid = shortid.generate();
-        if (rememberMe) {
-            res.cookie('sid', sid);
-        } else {
-            // set timeout 30 min
-            res.cookie('sid', sid, { maxAge: 1800000 });
+        try {
+            let email = req.query.email;
+            let password = req.query.password;
+            let rememberMe = req.query.rememberMe;
+            let user = await redisClient.hget('users', email);
+            if(!user) return res.send("NOT_EXISTS");
+            let userJson = JSON.parse(user);
+            if (userJson.userDetails.password != password) return res.send("INCORRECT");
+            // in case user logged in correctly
+            let sid = shortid.generate();
+            if (rememberMe === 'true') {
+                // set timeout for a week
+                res.cookie('sid', sid,  { maxAge: 604800000 });
+            } else {
+                // set timeout 30 min
+                res.cookie('sid', sid, { maxAge: 1800000 });
+            }
+    
+            let date = new Date(Date.now());
+            userJson.loginActivity.push(date.toString());
+            await redisClient.hmset('users', email, (JSON.stringify(userJson)));
+    
+            let userType;
+            if(userJson.userDetails.email == "admin"){
+                userType = 'admin';
+            } else {
+                userType = 'user';
+            }
+            users[sid] = {email, id: sid, cart: userJson.cart, wishList: userJson.wishList, userType};
+            return res.send("OK");
+        } catch (e) {
+            return res.sendStatus(500);
         }
-
-        let date = new Date(Date.now());
-        userJson.loginActivity.push(date.toString());
-        await redisClient.hmset('users', email, (JSON.stringify(userJson)));
-
-        if(userJson.email == "admin"){
-            res.cookie('admin', 'admin');
-        }
-        users[sid] = {email, id: sid, cart: userJson.cart, wishList: userJson.wishList};
-        return res.send("OK");
     });
 
-    app.get('/private/*', (req, res, next)=>{
-        if(req.cookies.sid){
-            next();
-        } else {
-            res.redirect('/error.html');
+    app.use('/private/*', (req, res, next)=>{
+        try {
+            if(req.cookies.sid){
+                next();
+            } else {
+                res.redirect('/index.html');
+            }
+        } catch (e) {
+            return res.sendStatus(500);
         }
     });
 
     // cart
-    app.get('/private/cart', (req, res)=>{
-        let cookieSid = req.cookies.sid;
-        return res.json({cart: users[cookieSid].cart});
-    });
+    cart.load(app, redisClient, users);
 
-    app.post('/private/addToCart', async (req, res)=>{
-        let clothId = req.body.clothId;
-        let cookieSid = req.cookies.sid;
-        users[cookieSid].cart.push(clothId);
-        let update = await updateCart(users[cookieSid].cart, cookieSid);
-        return res.send("OK");
-    });
+    // app.get('/private/cart', (req, res)=>{
+    //     try {
+    //         let cookieSid = req.cookies.sid;
+    //         return res.json({cart: users[cookieSid].cart});
+    //     } catch (e) {
+    //         return res.sendStatus(500);
+    //     }
+    // });
 
-    app.post('/private/removeFromCart', async (req, res)=>{
-        let clothId = req.body.clothId;
-        let cookieSid = req.cookies.sid;
-        let itemIndex = users[cookieSid].cart.indexOf(clothId);
-        if(itemIndex == -1) return res.send("item not found");
-        users[cookieSid].cart.splice(itemIndex);
-        let update = await updateCart(users[cookieSid].cart, cookieSid);
-        // if(!update) res.redirect() //to login
-        return res.send("OK");
-    });
+    // app.post('/private/addToCart', async (req, res)=>{
+    //     try {
+    //         let clothId = req.body.clothId;
+    //         let cookieSid = req.cookies.sid;
+    //         users[cookieSid].cart.push(clothId);
+    //         let update = await updateCart(users[cookieSid].cart, cookieSid);
+    //         if(update === 'false') res.sendStatus(500);
+    //         return res.send("OK");
+    //     } catch (e) {
+    //         return res.sendStatus(500);
+    //     }
+    // });
+
+    // app.post('/private/removeFromCart', async (req, res)=>{
+    //     try {
+    //         let clothId = req.body.clothId;
+    //         let cookieSid = req.cookies.sid;
+    //         let itemIndex = users[cookieSid].cart.indexOf(clothId);
+    //         if(itemIndex == -1) return res.send("item not found");
+    //         users[cookieSid].cart.splice(itemIndex);
+    //         let update = await updateCart(users[cookieSid].cart, cookieSid);
+    //         if(update === 'false') res.sendStatus(500);
+    //         return res.send("OK");
+    //     } catch (e) {
+    //         return res.sendStatus(500);
+    //     }
+    // });
 
     // wish list
     app.get('/private/wishList', (req, res)=>{
-        let cookieSid = req.cookies.sid;
-        return res.json({wishList: users[cookieSid].wishList});
+        try {
+            let cookieSid = req.cookies.sid;
+            return res.json({wishList: users[cookieSid].wishList});
+        } catch (e) {
+            return res.sendStatus(500);
+        }
     });
 
     app.post('/private/addToWishList', async (req, res)=>{
-        let clothId = req.body.clothId;
-        let cookieSid = req.cookies.sid;
-        users[cookieSid].wishList.push(clothId);
-        let update = await updateWishList(users[cookieSid].wishList, cookieSid);
-        return res.send("OK");
+        try {
+            let clothId = req.body.clothId;
+            let cookieSid = req.cookies.sid;
+            users[cookieSid].wishList.push(clothId);
+            let update = await updateWishList(users[cookieSid].wishList, cookieSid);
+            if(update === 'false') res.sendStatus(500);
+            return res.send("OK");
+        } catch (e) {
+            return res.sendStatus(500);
+        }
     });
 
     app.post('/private/removeFromWishList', async (req, res)=>{
-        let clothId = req.body.clothId;
-        let cookieSid = req.cookies.sid;
-        let itemIndex = users[cookieSid].wishList.indexOf(clothId);
-        if(itemIndex == -1) return res.send("item not found");
-        users[cookieSid].wishList.splice(itemIndex);
-        let update = await updateWishList(users[cookieSid].wishList, cookieSid);
-        // if(!update) res.redirect() //to login
-        return res.send("OK");
+        try {
+            let clothId = req.body.clothId;
+            let cookieSid = req.cookies.sid;
+            let itemIndex = users[cookieSid].wishList.indexOf(clothId);
+            if(itemIndex == -1) return res.send("item not found");
+            users[cookieSid].wishList.splice(itemIndex);
+            let update = await updateWishList(users[cookieSid].wishList, cookieSid);
+            if(update === 'false') res.sendStatus(500);
+            return res.send("OK");
+        } catch (e) {
+            return res.sendStatus(500);
+        }
+    });
+
+    app.get('/private/adminInfo', async (req, res)=> {
+        try {
+            let cookieSid = req.cookies.sid;
+            if(users[cookieSid].userType !== 'admin') return res.redirect('/error.html');
+            let usersInfo = await redisClient.hgetall('users');
+            let usersInfoArr =  Object.values(usersInfo);
+            let usersInfoJson = usersInfoArr.map((user) => JSON.parse(user));
+            res.json(usersInfoJson);
+        } catch (e) {
+            console.log(e);
+            return res.sendStatus(500);
+        }
     });
 
     app.post('/logout', async (req, res)=>{
-        res.clearCookie("sid");
-        return res.sendFile(path.join(__dirname, '../client/src', 'index.html'));
+        try {
+            res.clearCookie("sid");
+            return res.sendFile(path.join(__dirname, '../client/src', 'index.html'));
+        } catch (e) {
+            return res.sendStatus(500);
+        }
     });
 
     app.get('/products', async (req, res)=> {
-        let category = req.query.category;
-        let clothes = require('./clothes.json');
-        let filtered = clothes.filter((c) => (c.category == category.toLowerCase()))
-        res.send(filtered);
-    })
+        try {
+            let category = req.query.category;
+            let clothes = require('./clothes.json');
+            let filtered = clothes.filter((c) => (c.category == category.toLowerCase()))
+            res.send(filtered);
+        } catch (e) {
+            return res.sendStatus(500);
+        }
+    });
 
 
-    //app.use(express.static('/client/src')); AYA CHANGED!!!!!
-    app.use(express.static('../client/src'));
+    app.use(express.static('./client/src')); // AYA CHANGED!!!!! works for Adi
+    // app.use(express.static('/../client/src'));
+    // app.use(express.static('../client/src')); // works for Aya
 
-    app.get('/', function (req, res) {
-        return res.sendFile(path.join(__dirname, '../client/src', 'index.html'));
-    })
+    // app.get('/', function (req, res) {
+    //     return res.sendFile(path.join(__dirname, '../client/src', 'index.html'));
+    // })
     
 
     async function createAdminUser() {
-        let email = "admin";
-        let user = generateUser(email, "admin", "admin");
-        await redisClient.hmset('users', email, (JSON.stringify(user)));
-    }
-
-
-    async function updateCart(cart, cookieSid){
         try {
-            let user = await redisClient.hget('users', users[cookieSid].email);
-            if(!user) return false;
-            let userJson = JSON.parse(user);
-            userJson.cart = cart;
-            await redisClient.hmset('users', users[cookieSid].email, (JSON.stringify(userJson)));
+            let email = "admin";
+            let user = generateUser(email, "admin", "admin");
+            await redisClient.hmset('users', email, (JSON.stringify(user)));
         } catch (e){
             console.log(e);
         }
     }
+
+    // async function updateCart(cart, cookieSid){
+    //     try {
+    //         let user = await redisClient.hget('users', users[cookieSid].email);
+    //         if(!user) return false;
+    //         let userJson = JSON.parse(user);
+    //         userJson.cart = cart;
+    //         await redisClient.hmset('users', users[cookieSid].email, (JSON.stringify(userJson)));
+    //         return true;
+    //     } catch (e){
+    //         console.log(e);
+    //         return false;
+    //     }
+    // }
 
     async function updateWishList(wishList, cookieSid){
         try {
@@ -179,8 +246,10 @@ redisClient.on('connect', async function() {
             let userJson = JSON.parse(user);
             userJson.wishList = wishList;
             await redisClient.hmset('users', users[cookieSid].email, (JSON.stringify(userJson)));
+            return true;
         } catch (e){
             console.log(e);
+            return false;
         }
     }
 });
