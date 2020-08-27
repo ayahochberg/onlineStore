@@ -41,7 +41,7 @@ function validateUserInput(email, fullname, password) {
         document.getElementById("errors").innerHTML += "<br>password must contains at list 6 characters";
     }
 
-    return isValidEmail && isValidPassword;
+    return isValidEmail && isValidPassword && isValidName;
 }
 
 function handleResult(ans) {
