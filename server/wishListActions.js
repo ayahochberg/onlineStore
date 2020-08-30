@@ -36,7 +36,7 @@ wishList.load = function(app, redisClient, users) {
             let cookieSid = req.cookies.sid;
             let itemIndex = users[cookieSid].wishList.indexOf(clothId);
             if(itemIndex == -1) return res.send("item not found");
-            users[cookieSid].wishList.splice(itemIndex);
+            users[cookieSid].wishList.splice(itemIndex, 1);
             let update = await updateWishList(users[cookieSid].wishList, cookieSid);
             if(update === 'false') res.sendStatus(500);
             return res.send("OK");
