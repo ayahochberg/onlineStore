@@ -42,36 +42,21 @@ const fail = "FAILURE";
         if(body == "NOT_EXISTS") console.log(success);
         else console.log(fail);
 
-        // add to cart
+        // add to cart 
         let clothId = 3;
         console.log("Try to add to cart an item");
-        let data = new URLSearchParams();
-        data.append("clothId", clothId)
-        res = await fetch(URL + '/private/addToCart', {
-          method: 'POST', 
-          headers: {
-            "Content-Type" :"application/x-www-form-urlencoded",
-            "Cookie" : cookie
-          }, 
-          body: data
-        });
-
-        body = await res.text();
-        console.log("res body:", body);
-        if(body == "OK") {
-          let res = await fetch(URL + '/private/cart', {
-            method: 'GET', 
-            headers: {"Cookie" : cookie}
-          });
-          body = await res.text();
-          let bodyJson = JSON.parse(body);
-          if(bodyJson.cart[0] == clothId) console.log(success);
-          else console.log(fail);
-        }
+        res = await testAddToCart(clothId, cookie);
+        if(res === success) console.log(success);
         else console.log(fail);
 
+        // console.log("Try to add to cart an item, with wrong input");
+        // res = await testAddToCart('wrong input', cookie);
+        // console.log('$$$$ res: ', res);
+        // if(res === false) console.log(success);
+        // else console.log(fail);
+
         // remove from cart
-        console.log("Try to remove item from the cart");
+        console.log("Try to remove item from cart");
         data = new URLSearchParams();
         data.append("clothId", clothId)
         res = await fetch(URL + '/private/removeFromCart', {
@@ -86,21 +71,126 @@ const fail = "FAILURE";
         body = await res.text();
         console.log("res body:", body);
         if(body == "OK") {
-          let res = await fetch(URL + '/private/cart', {
-            method: 'GET', 
-            headers: {"Cookie" : cookie}
-          });
-          body = await res.text();
-          let bodyJson = JSON.parse(body);
-          if(bodyJson.cart.indexOf(clothId) == -1 ) console.log(success);
+          let itemInCart = await checkIfItemExist(cookie, clothId, 'cart');
+          if(itemInCart === false) console.log(success);
           else console.log(fail);
         }
         else console.log(fail);
 
+        // add to wish list
+        clothId = 4;
+        console.log("Try to add to wish list an item");
+        data = new URLSearchParams();
+        data.append("clothId", clothId)
+        res = await fetch(URL + '/private/addToWishList', {
+          method: 'POST', 
+          headers: {
+            "Content-Type" :"application/x-www-form-urlencoded",
+            "Cookie" : cookie
+          }, 
+          body: data
+        });
 
+        body = await res.text();
+        console.log("res body:", body);
+        if(body === "OK") {
+          let itemInCart = await checkIfItemExist(cookie, clothId, 'wishList');
+          if(itemInCart === true) console.log(success);
+          else console.log(fail);
+        }
+        else console.log(fail + " didn't add to wish list : " + body);
+
+        // remove from wish list
+        console.log("Try to remove item from wish list");
+        data = new URLSearchParams();
+        data.append("clothId", clothId)
+        res = await fetch(URL + '/private/removeFromWishList', {
+          method: 'POST', 
+          headers: {
+            "Content-Type" :"application/x-www-form-urlencoded",
+            "Cookie" : cookie
+          }, 
+          body: data
+        });
+
+        body = await res.text();
+        console.log("res body:", body);
+        if(body == "OK") {
+          let itemInCart = await checkIfItemExist(cookie, clothId, 'wishList');
+          if(itemInCart === false) console.log(success);
+          else console.log(fail);
+        }
+        else console.log(fail);
+
+        // admin
+        console.log("try checkIfAdmin route");
+        res = await fetch(URL + '/checkIfAdmin', {
+          method: 'GET', 
+          headers: {
+            "Content-Type" :"application/x-www-form-urlencoded",
+            "Cookie" : cookie
+          }
+        });
+        body = await res.text();
+        if(body === 'false') console.log(success);
+        else console.log(fail); 
+
+        // logout
+        console.log("Try to logout user1");
+        res = await fetch(URL + '/logout', {
+          method: 'POST', 
+          headers: {
+            "Content-Type" :"application/x-www-form-urlencoded",
+            "Cookie" : cookie
+          }
+        });
+        if(res.status == 500) console.log(fail + "didn't scceed to logout - internal server error");
+        cookie = res.headers.get('set-cookie').split(';')[0];
+        if(cookie.split('=')[1] == '') console.log(success);
+        else console.log(fail);
+
+        
     } catch (err) {
         console.log(fail + " " + err);
     }
+  }
+
+
+  async function testAddToCart(clothId, cookie){
+        let data = new URLSearchParams();
+        data.append("clothId", clothId)
+        res = await fetch(URL + '/private/addToCart', {
+          method: 'POST', 
+          headers: {
+            "Content-Type" :"application/x-www-form-urlencoded",
+            "Cookie" : cookie
+          }, 
+          body: data
+        });
+
+        body = await res.text();
+        console.log("res body:", body);
+        if(body === "OK") {
+          let itemInCart = await checkIfItemExist(cookie, clothId, 'cart');
+          if(itemInCart === true) return success;
+          else return fail;
+        }
+        else return false;
+  }
+
+  async function checkIfItemExist(cookie, clothId, list){
+    let res = await fetch(URL + `/private/${list}`, {
+      method: 'GET', 
+      headers: {"Cookie" : cookie}
+    });
+    body = await res.text();
+    let bodyJson = JSON.parse(body);
+    for (const item of bodyJson){
+      if(item.id === clothId){
+        return true;
+      }
+    }
+    return false;
   }
 
   test();
