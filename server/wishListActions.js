@@ -17,6 +17,9 @@ wishList.load = function(app, redisClient, users) {
     app.post('/private/addToWishList', async (req, res)=>{
         try {
             let clothId = req.body.clothId;
+            let cloth = checkIfClothExist(clothId);
+            if(!cloth) return res.send("Not a valid item id");
+
             let cookieSid = req.cookies.sid;
             users[cookieSid].wishList.push(clothId);
             let update = await updateWishList(users[cookieSid].wishList, cookieSid);
@@ -55,6 +58,12 @@ wishList.load = function(app, redisClient, users) {
             console.log(e);
             return false;
         }
+    }
+
+    function checkIfClothExist(clothId){
+        let clothes = require('./clothes.json');
+        let clothItem = clothes.find((cloth) => ''+cloth.id === clothId);
+        return clothItem;
     }
 
 }

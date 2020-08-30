@@ -49,11 +49,10 @@ const fail = "FAILURE";
         if(res === success) console.log(success);
         else console.log(fail);
 
-        // console.log("Try to add to cart an item, with wrong input");
-        // res = await testAddToCart('wrong input', cookie);
-        // console.log('$$$$ res: ', res);
-        // if(res === false) console.log(success);
-        // else console.log(fail);
+        console.log("Try to add to cart an item, with wrong input");
+        res = await testAddToCart('wrong input', cookie);
+        if(res === false) console.log(success);
+        else console.log(fail);
 
         // remove from cart
         console.log("Try to remove item from cart");

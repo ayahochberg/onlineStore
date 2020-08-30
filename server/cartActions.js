@@ -17,6 +17,9 @@ cart.load = function(app, redisClient, users) {
     app.post('/private/addToCart', async (req, res)=>{
         try {
             let clothId = req.body.clothId;
+            let cloth = checkIfClothExist(clothId);
+            if(!cloth) return res.send("Not a valid item id");
+            
             let cookieSid = req.cookies.sid;
             users[cookieSid].cart.push(clothId);
             let update = await updateCart(users[cookieSid].cart, cookieSid);
@@ -55,6 +58,12 @@ cart.load = function(app, redisClient, users) {
             console.log(e);
             return false;
         }
+    }
+
+    function checkIfClothExist(clothId){
+        let clothes = require('./clothes.json');
+        let clothItem = clothes.find((cloth) => ''+cloth.id === clothId);
+        return clothItem;
     }
 
 }
