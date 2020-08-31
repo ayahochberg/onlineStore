@@ -166,3 +166,18 @@ ul li ul li {
   margin-left: auto;
   margin-right: auto;
 }
+
+.heading{
+	text-transform: uppercase;
+	font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+	text-align: center;
+	line-height: 2;
+	font-size: 12px;
+}
+
+.underline {
+	margin: 0 auto;
+	background-color: #ff80d5;
+	width: 13%;
+	height: 2px;
+}

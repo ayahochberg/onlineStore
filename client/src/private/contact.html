@@ -3,10 +3,27 @@
 <title></title>
 <head>
     <link rel="stylesheet" type="text/css" href="../css/homePageStyle.css">
-    <link rel="stylesheet" type="text/css" href="../css/clothesPageStyle.css">
-    <script src="./js/products.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/contactStyle.css">
     <script src="./js/menuActions.js"></script>
     <script src="https://kit.fontawesome.com/354304e19a.js" crossorigin="anonymous"></script>
+    <script>
+        window.addEventListener('load', init);
+
+    function init() {
+    let form =  document.getElementById('contactForm');
+    form.addEventListener('submit', function(){
+        let name = document.getElementById('name').value;
+        let phone = document.getElementById('name').value;
+        let subject = document.getElementById('subject').value;
+        let message = document.getElementById('message').value;
+
+        let body = `Name : ${name} %0D%0A Phone: ${phone} %0D%0A Message: ${message}`;
+
+        window.open(`mailto:contact@Retro.com?subject=${subject}&body=${body}`);
+    });
+}
+    </script>
+        
 </head>
 <body>
     <nav>
@@ -36,12 +53,30 @@
                 <span>Logout </span>
             </button>
         </ul>
-    </nav>    	
-	<div class="container wrap">
+    </nav>
+
+    <div class="container wrap">
 		<div class="heading">
-			<h1>Pants</h1>
+			<h1>Contact Us</h1>
 			<div class="underline"></div>
         </div>	
     </div>
+    <div class="contact" id="contactForm">
+        <form>
+          <label for="name"><i class="fas fa-user-alt"> </i> Name</i></label>
+          <input type="text" id="name" name="name" placeholder="Enter Your name..">
+      
+          <label for="phone"><i class="fas fa-phone"> </i> Phone</i></label>
+          <input type="text" id="phone" name="phone" placeholder="Enter Your phone..">
+
+          <label for="subject"><i class="fas fa-pen"> </i> Subject</i></label>
+          <input type="text" id="subject" name="subject" placeholder="Enter subject..">
+    
+          <label for="message"><i class="fas fa-envelope"></i> Message</label>
+          <textarea id="message" name="message" placeholder="Enter your message.." style="height:200px"></textarea>
+      
+          <input type="submit" value="Send">
+        </form>
+      </div>
 </body>
 </html>
