@@ -9,17 +9,15 @@
     <script>
         window.addEventListener('load', init);
 
-    function init() {
-    let form =  document.getElementById('contactForm');
-    form.addEventListener('submit', function(){
-        let name = document.getElementById('name').value;
-        let phone = document.getElementById('name').value;
-        let subject = document.getElementById('subject').value;
-        let message = document.getElementById('message').value;
+        function init() {
+            let form =  document.getElementById('contactForm');
+            form.addEventListener('submit', function(){
+                let name = document.getElementById('name').value;
+                let phone = document.getElementById('name').value;
+                let subject = document.getElementById('subject').value;
+                let message = document.getElementById('message').value;
 
-        let body = `Name : ${name} %0D%0A Phone: ${phone} %0D%0A Message: ${message}`;
-
-        window.open(`mailto:contact@Retro.com?subject=${subject}&body=${body}`);
+                let body = `Name : ${name} %0D%0A Phone: ${phone} %0D%0A Message: ${message}`;
     });
 }
     </script>
