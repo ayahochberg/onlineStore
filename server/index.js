@@ -13,6 +13,7 @@ const login = require('./login');
 const register = require('./register');
 const products = require('./productsAction');
 const logout = require('./logout');
+const checkout = require('./checkout');
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -65,6 +66,8 @@ redisClient.on('connect', async function() {
     wishList.load(app, redisClient, users);
 
     adminActions.load(app, redisClient, users);
+    
+    checkout.load(app, redisClient, users);
 
     logout.load(app);
 
@@ -72,8 +75,8 @@ redisClient.on('connect', async function() {
 
     search.load(app);
 
-    //app.use(express.static('./client/src')); // AYA CHANGED!!!!! works for Adi
-      app.use(express.static('../client/src')); // works for Aya
+    app.use(express.static('./client/src')); // AYA CHANGED!!!!! works for Adi
+    //   app.use(express.static('../client/src')); // works for Aya
 
     async function createAdminUser() {
         try {

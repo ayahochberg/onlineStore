@@ -49,6 +49,12 @@ const fail = "FAILURE";
         if(res === success) console.log(success);
         else console.log(fail);
 
+        clothId = 4;
+        console.log("Try to add to cart another item");
+        res = await testAddToCart(clothId, cookie);
+        if(res === success) console.log(success);
+        else console.log(fail);
+
         console.log("Try to add to cart an item, with wrong input");
         res = await testAddToCart('wrong input', cookie);
         if(res === false) console.log(success);
@@ -133,6 +139,21 @@ const fail = "FAILURE";
         body = await res.text();
         if(body === 'false') console.log(success);
         else console.log(fail); 
+
+        // checkout
+        console.log("Try to checkout user1 cart");
+        res = await fetch(URL + '/logout', {
+          method: 'GET', 
+          headers: {
+            "Content-Type" :"application/x-www-form-urlencoded",
+            "Cookie" : cookie
+          }
+        });
+        if(res.status == 500) console.log(fail + "didn't scceed to checkout - internal server error");
+        let itemInCart = await checkIfItemExist(cookie, clothId, 'wishList');
+        if(itemInCart === false) console.log(success);
+        else console.log(fail)
+
 
         // logout
         console.log("Try to logout user1");
