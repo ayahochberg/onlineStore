@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ReadMe</title>
+        <style>
+            body {
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            }
+            h1 {
+                color:plum;
+                font-style: italic;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Retro Store</h1>
+        <h3>Second hand clothes</h3>
+        <h5>Additonal pages:</h5>
+            <ul>
+                <li>WishList - a part of the menu. In case you want to add a cloth to the wish list, in order to remember this item, you click on the heart symbol next to it. Then you can see your list under wish list tab.</li>
+                <li>Contact us - a part of the menu. Generates an email with your request.</li>
+                <li>Filtered clothes pages:  Tops, Pants, Skirts, Dresses - sub menu of products. Filter clothes by category, if you click a category you can see all the cloth in this category.</li>
+            </ul>
+        <h5>Hard to do:</h5>
+        <ul>
+            <li>Implement the connection between server to client</li>
+            <li>Organize the project's structure</li>
+        </ul>
+        <h5>Partner - Aya Hochberg 311357537</h5>
+			<p>I was responsible for the server side.</p>
+            <p>Aya was responsible for the client side.</p>
+			<p>Together we implemented the connection to redis, and it was important to both of us to be a part of each other's work, so Aya also added routes to the server and I also created html files and scripts. </p>
+        <h5>Specify all the different route your app supports</h5>
+        <ul>
+            <li>app.get('/')</li>
+            <li>app.use('/private/*')</li>
+            <li>app.use(express.static('./client/src'))</li>
+            <li>app.get('/private/cart')</li>
+            <li>app.post('/private/addToCart')</li>
+            <li>app.post('/private/removeFromCart')</li>
+            <li>app.post('/private/addToWishList')</li>
+            <li>app.get('/private/adminInfo')</li>
+            <li>app.get('/checkIfAdmin')</li>
+            <li>app.get('/private/checkout')</li>
+            <li>app.post('/logout')</li>
+            <li>app.get('/products')</li>
+            <li>app.get('/search)</li>
+        </ul>
+        <h5>How did you make your store secured?</h5>
+            <p>We checked the input parameters, we used try and catch block in places where exceptions might be thrown.<br> When a user logs in with a correct password we generate a cookie with a unique id without saving in the session the user's details.</p>
+        <h5>Did you implement the store using react.js?</h5>
+            <p>No</p>
+    </body>
+</html>

@@ -29,3 +29,8 @@ input[type=submit]:hover {
   border-radius: 5px;
   padding: 20px;
 }
+
+p {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: red;
+}
