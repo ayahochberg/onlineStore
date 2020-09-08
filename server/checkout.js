@@ -1,3 +1,4 @@
+const fs = require('fs');
 let checkout = {};
 
 checkout.load = function(app, redisClient, users) {
@@ -13,11 +14,25 @@ checkout.load = function(app, redisClient, users) {
             users[cookieSid].cart = [];
             userJson.cart = [];
             await redisClient.hmset('users', users[cookieSid].email, (JSON.stringify(userJson)));
+            deleteItemsFromClothesFile(cart);
             return res.send("OK");
         } catch (e) {
             return res.sendStatus(500);
         }
     });
+
+    function deleteItemsFromClothesFile(cart){
+        console.log('got here');
+        let clothes = require('./clothes.json');
+        let filtered = clothes.filter((c) => (!cart.includes(''+c.id)));
+        console.log('###: ', filtered);
+        console.log('len: ', filtered.length);
+        fs.writeFile('./clothes.json', JSON.stringify(filtered), 'utf8', (err) => {
+            if (err) console.log(err);
+            console.log('Data written to file');
+        });
+        return;
+    }
 
 }
 
