@@ -75,8 +75,7 @@ redisClient.on('connect', async function() {
 
     search.load(app);
 
-    app.use(express.static('./client/src')); // AYA CHANGED!!!!! works for Adi
-    //    app.use(express.static('../client/src')); // works for Aya
+    app.use(express.static('./client/src'));
 
     async function createAdminUser() {
         try {

@@ -46,4 +46,3 @@ function generateTable(usersList) {
 
     tableBody.innerHTML = dataHtml;
 }
-
