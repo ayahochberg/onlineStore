@@ -10,7 +10,6 @@
         async function checkIfAdmin(){
             let res = await fetch(`http://localhost:5000/checkIfAdmin`, {method: 'GET'});
             let isAdmin = await res.text();
-            console.log(isAdmin);
             let adminBtn = document.getElementById("adminBtn");
             if(isAdmin === 'true'){
                 adminBtn.style.display = "block";

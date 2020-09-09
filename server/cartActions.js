@@ -19,11 +19,12 @@ cart.load = function(app, redisClient, users) {
             let clothId = req.body.clothId;
             let cloth = checkIfClothExist(clothId);
             if(!cloth) return res.send("Not a valid item id");
-            
             let cookieSid = req.cookies.sid;
-            users[cookieSid].cart.push(clothId);
-            let update = await updateCart(users[cookieSid].cart, cookieSid);
-            if(update === 'false') res.sendStatus(500);
+            if(users[cookieSid].cart.includes(clothId) === false){
+                users[cookieSid].cart.push(clothId);
+                let update = await updateCart(users[cookieSid].cart, cookieSid);
+                if(update === 'false') return res.sendStatus(500);
+            }
             return res.send("OK");
         } catch (e) {
             return res.sendStatus(500);

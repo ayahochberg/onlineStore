@@ -4,7 +4,6 @@ let usersList;
 async function genrateUsersInfoGrid() {
     try {
         let res = await fetch(`http://localhost:5000/private/adminInfo`, {method: 'get'});
-        console.log(res);
         usersList = await res.json();
         generateTable(usersList);
     } catch (e) {
@@ -46,47 +45,5 @@ function generateTable(usersList) {
     }
 
     tableBody.innerHTML = dataHtml;
-
-    console.log(dataHtml);
 }
-
-
-// function generateTable(usersList){
-//     while(indexUser < resJsonArr.length) {
-//         console.log('3');
-//         let row = document.createElement('div');
-//         row.className = "row";
-
-//         let user = resJsonArr[indexUser];
-//         console.log('user: ', user);
-//         userInfo = generateUserRow(user);
-//         row.appendChild(userInfo)
-//         indexUser++;
-
-//         grid.appendChild(row)
-//     }
-// }
-
-
-// function generateItem(user){
-//     let product = document.createElement('div');
-//     product.className = "users-grid";
-//     let name = user.userDetails.name;
-//     let email = user.userDetails.email;
-//     let cart = user.cart;
-//     let wishlist = user.wishlist;
-//     let loginActivity = user.loginActivity;
-//     let purchases = user.purchases;
-
-//     let userInfo = document.createElement('div');
-//     userInfo.className = "user-detail";
-//     userInfo.innerHTML = `<h3>${name}</h3><h5>${email}$</h5>`
-
-//     product.appendChild(userInfo);
-
-//     let col = document.createElement('div');
-//     col.className = "column";
-//     col.appendChild(product)
-//     return col;
-// }
 
